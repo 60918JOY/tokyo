@@ -3,149 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>東京購物狂歡</title>
+    <title>東京 | 日本愛我</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-bg: #f4f6f9;       
+            --primary-bg: #f5f7fa;       
             --card-bg: #ffffff;          
-            --active-blue-bg: #e3f2fd;   
-            --active-blue-text: #2980b9; 
-            --text-dark: #2c3e50;        
-            --text-gray: #7f8c8d;        
-            --border-color: #ecf0f1;
-            --danger: #e74c3c;
-            --warning: #f39c12;
+            --active-blue-bg: #dbeafe;   /* 選中後的淺藍色 */
+            --active-blue-text: #1d4ed8; /* 選中後的深藍字 */
+            --text-dark: #1f2937;        
+            --text-gray: #6b7280;        
+            --border-color: #e5e7eb;
+            --warning: #fbbf24;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* 絕對防呆的底部留白 */
-        body { background-color: var(--primary-bg); color: var(--text-dark); padding-bottom: 120px; font-size: 15px; line-height: 1.5; }
+        /* 增加底部留白，確保不被導覽列遮擋 */
+        body { background-color: var(--primary-bg); color: var(--text-dark); padding-bottom: 120px; font-size: 15px; }
 
-        /* 頂部 Hero Banner */
+        /* 頂部富士山 Banner */
         .hero-banner {
-            position: relative; width: 100%; height: 240px;
-            background-image: url('https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=800&auto=format&fit=crop');
-            background-size: cover; background-position: center;
+            position: relative; width: 100%; height: 260px;
+            background-image: url('https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?q=80&w=800&auto=format&fit=crop');
+            background-size: cover; background-position: center 30%;
             display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
         }
-        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(44,62,80,0.3) 0%, rgba(44,62,80,0.8) 100%); z-index: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 1; }
         .hero-content { position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 20px; }
-        .hero-content h1 { font-size: 26px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
-        .hero-content p { font-size: 13px; opacity: 0.95; letter-spacing: 1px; font-weight: 500; }
+        .hero-content h1 { font-size: 28px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; text-shadow: 0 3px 15px rgba(0,0,0,0.8); }
+        .hero-content p { font-size: 14px; opacity: 0.95; letter-spacing: 1px; font-weight: 500; text-shadow: 0 1px 5px rgba(0,0,0,0.5); }
 
         .container { padding: 16px; max-width: 600px; margin: 0 auto; }
-        .tab-panel { display: none; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-panel { display: none; }
 
-        /* 卡片共用 */
-        .card { background: var(--card-bg); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid var(--border-color); }
-        .section-title { font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        /* 卡片設計 */
+        .card { background: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid var(--border-color); }
+        .section-title { font-size: 17px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--text-dark); }
         .section-title i { color: var(--active-blue-text); }
 
-        /* 日期選擇器 */
+        /* 天數選擇列：極簡白色設計 */
         .day-selector {
-            display: none; overflow-x: auto; background: var(--card-bg); padding: 12px 10px;
-            position: sticky; top: 0; z-index: 99; box-shadow: 0 2px 10px rgba(0,0,0,0.04); scrollbar-width: none;
+            display: none; overflow-x: auto; background: white; padding: 12px 5px;
+            position: sticky; top: 0; z-index: 99; border-bottom: 1px solid var(--border-color); scrollbar-width: none;
         }
         .day-selector::-webkit-scrollbar { display: none; }
         .day-btn {
-            flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; padding: 8px 18px; margin: 0 6px;
-            border-radius: 12px; background: white; color: var(--text-gray); border: 1px solid var(--border-color); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+            flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; padding: 10px 20px; margin: 0 6px;
+            border-radius: 12px; background: white; color: var(--text-gray); border: 1px solid var(--border-color); font-size: 12px; font-weight: 700; cursor: pointer;
         }
-        .day-btn .day-num { font-size: 18px; font-weight: 800; margin-bottom: 2px; }
+        .day-btn .day-num { font-size: 20px; margin-bottom: 2px; }
         .day-btn.active { background: var(--active-blue-bg); color: var(--active-blue-text); border-color: var(--active-blue-text); }
 
-        /* 行程時間軸 */
-        .timeline-item { display: flex; margin-bottom: 20px; position: relative; }
-        .timeline-time { width: 55px; font-size: 13px; font-weight: 700; color: var(--text-dark); padding-top: 4px; }
-        .timeline-content { flex-grow: 1; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 2px 8px rgba(0,0,0,0.03); overflow: hidden; }
+        /* 行程內容 */
+        .timeline-item { display: flex; margin-bottom: 25px; }
+        .timeline-time { width: 60px; font-size: 14px; font-weight: 800; color: var(--text-dark); padding-top: 5px; }
+        .timeline-content { flex-grow: 1; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden; }
         
-        /* 交通卡片特殊樣式 */
-        .transit-card { border-left: 4px solid #95a5a6; padding: 12px 15px; display: flex; align-items: center; gap: 12px; background: #fdfdfd; }
-        .transit-icon { font-size: 20px; color: #95a5a6; }
-        .transit-info { flex-grow: 1; }
-        .transit-route { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
-        .transit-detail { font-size: 12px; color: var(--text-gray); }
+        .transit-card { border-left: 5px solid #94a3b8; padding: 15px; display: flex; align-items: center; gap: 15px; background: #f9fafb; }
+        .transit-info { font-size: 14px; font-weight: 800; color: var(--text-dark); }
+        .transit-detail { font-size: 12px; color: var(--text-gray); margin-top: 3px;}
 
-        /* 景點相片與內容 */
-        .spot-img { width: 100%; height: 120px; object-fit: cover; background: #eee; }
-        .spot-body { padding: 15px; }
-        .timeline-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; color: var(--text-dark); display: flex; flex-wrap: wrap; gap: 6px; align-items: center;}
+        .spot-img { width: 100%; height: 140px; object-fit: cover; }
+        .spot-body { padding: 18px; }
+        .spot-title { font-size: 17px; font-weight: 900; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; background: #fef3c7; color: #92400e; font-weight: 800; }
+
+        /* 購買清單 */
+        .memo-container { margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 12px; }
+        .check-item { display: flex; align-items: center; padding: 10px 0; font-size: 14px; }
+        .check-item input { margin-right: 12px; width: 20px; height: 20px; accent-color: var(--active-blue-text); }
+        .check-item.checked span { text-decoration: line-through; color: var(--text-gray); }
         
-        /* 視覺標籤 (Badges) */
-        .badge { font-size: 11px; padding: 3px 6px; border-radius: 6px; font-weight: 700; }
-        .badge-tax { background: #ffeaa7; color: #d35400; border: 1px solid #f1c40f; }
-        .badge-notax { background: #ecf0f1; color: #7f8c8d; }
-        .badge-alert { background: #ff7675; color: white; margin-bottom: 8px; display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight:bold;}
+        .add-input-row { display: flex; gap: 8px; margin-top: 12px; }
+        .add-input-row input { flex-grow: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; }
+        .add-input-row button { background: var(--active-blue-bg); color: var(--active-blue-text); border: 1px solid var(--active-blue-text); padding: 0 15px; border-radius: 8px; font-weight: 800; }
 
-        /* 清單與編輯 */
-        .checklist-container { margin-top: 12px; border-top: 1px dashed #eee; padding-top: 10px; }
-        .check-item { display: flex; align-items: center; padding: 8px 0; font-size: 14px; border-bottom: 1px solid #f9f9f9; }
-        .check-item input[type="checkbox"] { margin-right: 10px; width: 18px; height: 18px; accent-color: var(--active-blue-text); }
-        .check-item.checked span { text-decoration: line-through; color: #bdc3c7; }
-        
-        .add-box { display: flex; gap: 8px; margin-top: 10px; }
-        .add-box input { flex-grow: 1; padding: 8px; border: 1px solid #eee; border-radius: 6px; font-size: 14px; outline: none; background: #fafafa;}
-        .add-box button { background: var(--active-blue-bg); color: var(--active-blue-text); border: 1px solid var(--active-blue-text); padding: 0 12px; border-radius: 6px; font-weight: 700; }
+        /* 總覽清單 */
+        .summary-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f3f4f6; text-decoration: none; color: var(--text-dark); }
+        .summary-icon { width: 30px; color: var(--active-blue-text); font-size: 18px; text-align: center; margin-right: 12px; }
 
-        /* 三餐編輯卡 */
-        .meal-card { padding: 12px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-left: 4px solid var(--warning); background:#fffef9; }
-        .meal-text { font-size: 15px; font-weight: 700; color: var(--text-dark); flex-grow: 1; }
-        .meal-hint { font-size: 12px; color: var(--text-gray); margin-top: 4px; }
-
-        /* 手風琴 */
-        .acc-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-weight: 700; font-size: 15px; cursor: pointer; border-bottom: 1px solid #eee; }
-        .acc-content { display: none; padding: 10px 0; }
-
-        /* 連結與作弊表 */
-        .link-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; text-decoration: none; color: var(--text-dark); }
-        .link-row:last-child { border-bottom: none; }
-        .link-icon { width: 25px; color: var(--active-blue-text); text-align: center; margin-right: 10px; font-size: 16px;}
-        
-        .cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; text-align: center;}
-        .cheat-box { background: var(--primary-bg); padding: 10px; border-radius: 8px; font-weight: 700;}
-        .cheat-jpy { font-size: 16px; color: var(--text-dark); }
-        .cheat-twd { font-size: 13px; color: var(--text-gray); margin-top: 2px;}
-
-        /* =========================================================
-           最強防呆底部導航列：移除毛玻璃、移除CSS計算，保證顯示
-           ========================================================= */
-        .fixed-bottom-bar {
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            background-color: #ffffff; /* 純白背景防出錯 */
-            display: flex; 
-            justify-content: space-around; 
-            align-items: center;
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.08); 
-            z-index: 99999; 
-            border-top: 1px solid #eee;
-            /* 針對 iPhone 底線特別加入的安全留白，支援度最高寫法 */
-            padding-bottom: env(safe-area-inset-bottom, 10px);
-            padding-bottom: -webkit-env(safe-area-inset-bottom, 10px);
+        /* ========================================================
+           最強防護底部橫列：確保不消失
+           ======================================================== */
+        #fixed-nav-bar {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            height: 75px !important;
+            background-color: #ffffff !important;
+            display: flex !important;
+            justify-content: space-around !important;
+            align-items: center !important;
+            z-index: 2147483647 !important; /* 全網頁最高權限 */
+            border-top: 1px solid #eeeeee !important;
+            padding-bottom: env(safe-area-inset-bottom, 15px) !important;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.1) !important;
         }
         
-        .nav-item {
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            color: #95a5a6; 
-            font-size: 11px; 
-            font-weight: 700; 
-            background: transparent; 
-            border: none; 
-            width: 25%; 
-            height: 65px;
-            padding: 5px 0;
-            cursor: pointer;
+        .nav-button {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #9ca3af !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            background: transparent !important;
+            border: none !important;
+            width: 25% !important;
+            height: 100% !important;
+            cursor: pointer !important;
         }
-        .nav-item.active { color: var(--active-blue-text); }
-        .nav-icon { font-size: 22px; margin-bottom: 4px; }
+        .nav-button.active { color: var(--active-blue-text) !important; }
+        .nav-button i { font-size: 22px !important; margin-bottom: 4px !important; }
+
+        /* 匯率表 */
+        .cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .cheat-box { background: #f8fafc; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9;}
     </style>
 </head>
 <body>
@@ -154,7 +131,7 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>眼淚可以流 日幣不能留</h1>
-            <p>07/09 ~ 07/15 ｜ 7天6夜 ｜ 3人同行</p>
+            <p>07/09 ~ 07/15 ｜ 3人同行</p>
         </div>
     </div>
 
@@ -170,75 +147,204 @@
 
     <div class="container">
         
-        <div id="panel-overview" class="tab-panel active" style="display:block;">
+        <div id="tab-overview" class="tab-panel" style="display:block;">
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-plane-departure"></i> 航班與住宿</div>
-                <div class="link-row">
-                    <i class="fa-solid fa-plane-up link-icon"></i>
-                    <div><div style="font-weight:700;">去程 07/09 (MM620)</div><div style="font-size:12px; color:var(--text-gray);">02:00 TPE(T1) ➔ 06:30 NRT(T1)</div></div>
+                <div class="section-title"><i class="fa-solid fa-plane"></i> 交通與住宿摘要</div>
+                <div class="summary-row">
+                    <i class="fa-solid fa-plane-up summary-icon"></i>
+                    <div><b>去程 07/09 樂桃 MM620</b><br><small>02:00 TPE(T1) ➔ 06:30 NRT(T1)</small></div>
                 </div>
-                <div class="link-row">
-                    <i class="fa-solid fa-plane-arrival link-icon"></i>
-                    <div><div style="font-weight:700;">回程 07/15 (MM627)</div><div style="font-size:12px; color:var(--text-gray);">22:15 NRT(T1) ➔ 01:00 TPE(T1)</div></div>
+                <div class="summary-row">
+                    <i class="fa-solid fa-plane-arrival summary-icon"></i>
+                    <div><b>回程 07/15 樂桃 MM627</b><br><small>22:15 NRT(T1) ➔ 01:00 TPE(T1)</small></div>
                 </div>
-                <div class="link-row" style="padding-bottom:0;">
-                    <i class="fa-solid fa-bed link-icon"></i>
-                    <div><div style="font-weight:700;">池袋之家 (6晚)</div><div style="font-size:12px; color:var(--text-gray);">2-20-1, Ikebukuro, Toshima-ku</div></div>
+                <div class="summary-row" style="border-bottom:none;">
+                    <i class="fa-solid fa-hotel summary-icon"></i>
+                    <div><b>池袋之家 (House Ikebukuro)</b><br><small>全程入住 ｜ 2-20-1, Ikebukuro, Toshima-ku</small></div>
                 </div>
             </div>
 
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-calculator"></i> 購物戰鬥作弊表</div>
-                <div style="background:#fff9e6; border-left:4px solid #f1c40f; padding:10px; border-radius:6px; font-size:13px; margin-bottom:12px;">
-                    <b>免稅門檻</b>：未稅滿 ¥5,000。<br>
-                    <span style="color:#d35400;">注意：消耗品(藥妝/零食)不可拆封！一般物品(衣服/公仔)可直接用。結帳務必出示護照實體。</span>
-                </div>
-                <div style="font-size:12px; color:var(--text-gray); text-align:center;">匯率速算 (以 0.22 估算，刷卡為主)</div>
+                <div class="section-title"><i class="fa-solid fa-yen-sign"></i> 購物戰鬥匯率表 (0.22)</div>
                 <div class="cheat-grid">
-                    <div class="cheat-box"><div class="cheat-jpy">¥ 1,000</div><div class="cheat-twd">約 NT$ 220</div></div>
-                    <div class="cheat-box"><div class="cheat-jpy">¥ 5,000</div><div class="cheat-twd">約 NT$ 1,100 (免稅線)</div></div>
-                    <div class="cheat-box"><div class="cheat-jpy">¥ 10,000</div><div class="cheat-twd">約 NT$ 2,200</div></div>
-                    <div class="cheat-box"><div class="cheat-jpy">¥ 30,000</div><div class="cheat-twd">約 NT$ 6,600</div></div>
+                    <div class="cheat-box"><b>¥1,000</b><br><small>NT$ 220</small></div>
+                    <div class="cheat-box"><b>¥5,000</b><br><small>NT$ 1,100</small></div>
+                    <div class="cheat-box"><b>¥10,000</b><br><small>NT$ 2,200</small></div>
+                    <div class="cheat-box"><b>¥30,000</b><br><small>NT$ 6,600</small></div>
                 </div>
             </div>
+        </div>
+
+        <div id="tab-prep" class="tab-panel">
+            <div class="card">
+                <div class="section-title"><i class="fa-solid fa-clipboard-check"></i> 行前確認</div>
+                <div class="check-item"><input type="checkbox" checked> <span>eSIM 網卡已購買</span></div>
+                <div class="check-item"><input type="checkbox" checked> <span>機票旅平險已投保</span></div>
+                <div class="check-item"><input type="checkbox"> <span>Visit Japan Web 填寫</span></div>
+                <div class="check-item"><input type="checkbox"> <span>護照實體正本 (退稅用)</span></div>
+            </div>
+        </div>
+
+        <div id="tab-itinerary" class="tab-panel">
+            <div id="timeline-container"></div>
+        </div>
+
+        <div id="tab-links" class="tab-panel">
+            <div class="card">
+                <div class="section-title"><i class="fa-solid fa-train-subway"></i> 官方交通與時刻表</div>
+                <a href="https://www.keisei.co.jp/keisei/tetudou/skyliner/tc/" target="_blank" class="summary-row"><i class="fa-solid fa-clock summary-icon"></i> <span>京成電鐵 Skyliner 時刻表</span></a>
+                <a href="https://www.jreast.co.jp/multi/zh-CHT/" target="_blank" class="summary-row"><i class="fa-solid fa-map summary-icon"></i> <span>JR 東日本 (山手線/埼京線)</span></a>
+                <a href="https://www.tokyometro.jp/tcn/" target="_blank" class="summary-row"><i class="fa-solid fa-route summary-icon"></i> <span>東京地鐵 Tokyo Metro 官網</span></a>
+                <a href="https://transit.yahoo.co.jp/" target="_blank" class="summary-row" style="border-bottom:none;"><i class="fa-solid fa-magnifying-glass summary-icon"></i> <span>Yahoo! 乘換案內 (查路線)</span></a>
+            </div>
+            <div class="card">
+                <div class="section-title"><i class="fa-solid fa-tags"></i> 購物專屬優惠券</div>
+                <a href="https://www.donki.com/coupon/" target="_blank" class="summary-row" style="border-bottom:none;"><i class="fa-solid fa-gift summary-icon" style="color:#e74c3c;"></i> <b>唐吉訶德 免稅+5%優惠券</b></a>
+            </div>
+        </div>
+
+    </div>
+
+    <nav id="fixed-nav-bar">
+        <button class="nav-button active" onclick="switchTab('overview', this)">
+            <i class="fa-solid fa-compass"></i><span>總覽</span>
+        </button>
+        <button class="nav-button" onclick="switchTab('prep', this)">
+            <i class="fa-solid fa-list-check"></i><span>準備</span>
+        </button>
+        <button class="nav-button" onclick="switchTab('itinerary', this)">
+            <i class="fa-solid fa-location-dot"></i><span>行程</span>
+        </button>
+        <button class="nav-button" onclick="switchTab('links', this)">
+            <i class="fa-solid fa-link"></i><span>連結</span>
+        </button>
+    </nav>
+
+    <script>
+        var currentDayIdx = 0;
+        var appState = { items: {} };
+
+        // 完整行程資料庫
+        var db = [
+            [ // D1
+                { type: "spot", time: "06:30", title: "抵達成田機場 T1", img: "https://images.unsplash.com/photo-1574182245536-6668ea8af6df?q=80&w=800&auto=format&fit=crop", items: [] },
+                { type: "transit", route: "Skyliner (成田 ➔ 池袋)", detail: "約 60 分鐘 ｜ ¥2,480" },
+                { type: "spot", time: "10:00", title: "池袋 Sunshine City", img: "https://images.unsplash.com/photo-1542051812871-75f10b7a8a05?q=80&w=800&auto=format&fit=crop", badge: "免稅", items: ["寶可夢中心", "迪士尼店", "推活周邊"] },
+                { type: "meal", time: "12:00", title: "午餐候選", hint: "百貨內美食街" },
+                { type: "spot", time: "14:00", title: "池袋 PARCO / LUMINE", img: "https://images.unsplash.com/photo-1512466699230-e37452d37c86?q=80&w=800&auto=format&fit=crop", badge: "免稅+5%", items: ["Snidel", "Emoda", "世界堂"] },
+                { type: "meal", time: "18:00", title: "晚餐候選", hint: "無敵家拉麵" }
+            ],
+            [ // D2
+                { type: "transit", route: "JR 山手線 (池袋 ➔ 原宿)", detail: "約 15 分鐘 ｜ ¥180" },
+                { type: "spot", time: "10:00", title: "原宿竹下通 & 表參道", img: "https://images.unsplash.com/photo-1555546252-16bb90772f4f?q=80&w=800&auto=format&fit=crop", items: ["手工牛奶糖", "哈利波特"] },
+                { type: "meal", time: "12:30", title: "午餐候選", hint: "Afuri 拉麵" },
+                { type: "transit", route: "步行 或 JR (原宿 ➔ 澀谷)", detail: "約 10 分鐘" },
+                { type: "spot", time: "14:00", title: "澀谷 109 & PARCO", img: "https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=800&auto=format&fit=crop", items: ["Chiikawa專賣店", "Nintendo"] },
+                { type: "meal", time: "19:00", title: "晚餐預定", hint: "Shabu shabu Tsukada" }
+            ],
+            [ // D3
+                { type: "transit", route: "JR 山手線 (池袋 ➔ 秋葉原)", detail: "約 20 分鐘" },
+                { type: "spot", time: "10:00", title: "秋葉原 動漫巡禮", img: "https://images.unsplash.com/photo-1582845686001-c8eb725c48b2?q=80&w=800&auto=format&fit=crop", items: ["Animate總店", "巨大扭蛋區"] },
+                { type: "transit", route: "地鐵 (秋葉原 ➔ 押上)", detail: "約 15 分鐘" },
+                { type: "spot", time: "15:00", title: "晴空塔 SkyTree", img: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?q=80&w=800&auto=format&fit=crop", items: ["柯南專賣店", "晴空塔三組"] },
+                { type: "transit", route: "半藏門線 (押上 ➔ 東京)", detail: "約 20 分鐘" },
+                { type: "spot", time: "18:00", title: "東京車站一番街", img: "https://images.unsplash.com/photo-1582029759245-0d291580f498?q=80&w=800&auto=format&fit=crop", items: ["吉伊卡哇店", "蠟筆小新店"] }
+            ],
+            [ // D4
+                { type: "transit", route: "JR 埼京線 (池袋 ➔ 新宿)", detail: "約 8 分鐘" },
+                { type: "spot", time: "10:30", title: "新宿丸井百貨", img: "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?q=80&w=800&auto=format&fit=crop", items: ["Chiikawa 魔法店"] },
+                { type: "spot", time: "14:00", title: "新宿 LUMINE 2 & EST", img: "https://images.unsplash.com/photo-1505312781498-8ec1f40954b9?q=80&w=800&auto=format&fit=crop", badge: "免稅扣手續費", items: ["Snidel", "服飾掃貨"] }
+            ],
+            [ // D5
+                { type: "transit", route: "地鐵 (池袋 ➔ 淺草)", detail: "約 35 分鐘" },
+                { type: "spot", time: "09:00", title: "淺草 和服體驗", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop", items: ["和服變身"] },
+                { type: "spot", time: "14:30", title: "淺草唐吉訶德", img: "https://images.unsplash.com/photo-1554522956-6dd7287905d6?q=80&w=800&auto=format&fit=crop", badge: "免稅再折5%", items: ["藥妝掃貨", "日本零食"] }
+            ],
+            [ // D6
+                { type: "transit", route: "地鐵+JR (池袋 ➔ 舞濱)", detail: "約 50 分鐘" },
+                { type: "spot", time: "08:40", title: "東京迪士尼海洋", img: "https://images.unsplash.com/photo-1518174418386-350b91f061d4?q=80&w=800&auto=format&fit=crop", items: ["達菲熊", "Fantasy Springs"] }
+            ],
+            [ // D7
+                { type: "spot", time: "10:00", title: "池袋補貨/拿行李", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800&auto=format&fit=crop", items: ["最後打包秤重"] },
+                { type: "transit", route: "Skyliner (池袋 ➔ 成田)", detail: "約 60 分鐘" },
+                { type: "spot", time: "18:00", title: "成田機場 T1", img: "https://images.unsplash.com/photo-1574182245536-6668ea8af6df?q=80&w=800&auto=format&fit=crop", items: ["機場免稅伴手禮"] }
+            ]
+        ];
+
+        window.onload = function() {
+            var saved = localStorage.getItem('tokyoTrip_v3');
+            if(saved) appState = JSON.parse(saved);
+            renderTimeline();
+        };
+
+        function switchTab(id, btn) {
+            var panels = document.getElementsByClassName('tab-panel');
+            for(var i=0; i<panels.length; i++) panels[i].style.display = 'none';
             
-            <div class="card">
-                <div class="section-title"><i class="fa-solid fa-language"></i> 生存日文小卡</div>
-                <div class="link-row" style="flex-direction:column; align-items:flex-start;">
-                    <div style="font-weight:700; font-size:18px; color:var(--active-blue-text);">Tax-free お願いします</div>
-                    <div style="font-size:12px; color:var(--text-gray);">麻煩我要免稅 (結帳指給店員看)</div>
-                </div>
-                <div class="link-row" style="flex-direction:column; align-items:flex-start;">
-                    <div style="font-weight:700; font-size:18px; color:var(--active-blue-text);">新しいものありますか？</div>
-                    <div style="font-size:12px; color:var(--text-gray);">請問有全新的嗎？</div>
-                </div>
-                <div class="link-row" style="flex-direction:column; align-items:flex-start; padding-bottom:0;">
-                    <div style="font-weight:700; font-size:18px; color:var(--active-blue-text);">カード使えますか？</div>
-                    <div style="font-size:12px; color:var(--text-gray);">可以刷卡嗎？</div>
-                </div>
-            </div>
-        </div>
+            var btns = document.getElementsByClassName('nav-button');
+            for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
+            
+            document.getElementById('tab-' + id).style.display = 'block';
+            btn.classList.add('active');
+            
+            var isItin = (id === 'itinerary');
+            document.getElementById('heroBanner').style.display = isItin ? 'none' : 'flex';
+            document.getElementById('daySelector').style.display = isItin ? 'flex' : 'none';
+            if(isItin) renderTimeline();
+        }
 
-        <div id="panel-prep" class="tab-panel">
-            <div class="card">
-                <div class="acc-header" onclick="toggleAcc(this)"><span><i class="fa-solid fa-ticket link-icon"></i> 出發前待辦</span><i class="fa-solid fa-chevron-down" style="color:#ccc;"></i></div>
-                <div class="acc-content" style="display:block;">
-                    <div class="check-item checked" onclick="toggleCheck(this)"><i class="fa-solid fa-circle-check" style="color:#27ae60; margin-right:10px;"></i><span>eSIM 網卡已購買</span></div>
-                    <div class="check-item checked" onclick="toggleCheck(this)"><i class="fa-solid fa-circle-check" style="color:#27ae60; margin-right:10px;"></i><span>機票旅平險已投保</span></div>
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">填寫 Visit Japan Web 並截圖 QR Code</span></div>
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">iPhone 錢包確認綁好 Suica/ICOCA</span></div>
-                </div>
-            </div>
+        function switchDay(idx) {
+            currentDayIdx = idx;
+            var btns = document.getElementsByClassName('day-btn');
+            for(var i=0; i<btns.length; i++) {
+                if(i === idx) btns[i].classList.add('active');
+                else btns[i].classList.remove('active');
+            }
+            renderTimeline();
+        }
 
-            <div class="card">
-                <div class="acc-header" onclick="toggleAcc(this)"><span><i class="fa-solid fa-suitcase link-icon"></i> 購物武裝清單</span><i class="fa-solid fa-chevron-down" style="color:#ccc;"></i></div>
-                <div class="acc-content">
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">護照 (正本必帶出門退稅)</span></div>
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">高海外回饋信用卡 (Visa/Master)</span></div>
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">折疊式大容量批貨袋</span></div>
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">手提行李電子秤 (超重要)</span></div>
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">行動電源 + 充電線</span></div>
-                    <div class="check-item" onclick="toggleCheck(this)"><i class="fa-regular fa-circle" style="color:#ccc; margin-right:10px;"></i><span style="color:var(--text-dark);">休足時間 / 痠痛貼布</span></div>
-                </div>
-            </div>
-        </div>
+        function toggleList(id) {
+            appState.items[id] = !appState.items[id];
+            saveAppState(); renderTimeline();
+        }
+
+        function addListItem(dIdx, sIdx) {
+            var inp = document.getElementById('add-'+dIdx+'-'+sIdx);
+            if(inp.value.trim()){
+                db[dIdx][sIdx].items.push(inp.value.trim());
+                inp.value = ''; renderTimeline();
+            }
+        }
+
+        function saveAppState() { localStorage.setItem('tokyoTrip_v3', JSON.stringify(appState)); }
+
+        function renderTimeline() {
+            var cont = document.getElementById('timeline-container');
+            cont.innerHTML = '';
+            var spots = db[currentDayIdx];
+
+            for(var i=0; i<spots.length; i++){
+                var s = spots[i];
+                var html = '';
+                if(s.type === 'transit'){
+                    html = '<div class="timeline-item"><div class="timeline-time"></div><div class="transit-card"><i class="fa-solid fa-train-subway"></i><div class="transit-info">'+s.route+'<div class="transit-detail">'+s.detail+'</div></div></div></div>';
+                } else if(s.type === 'meal'){
+                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="card" style="margin-bottom:0; width:100%; border-left:4px solid var(--warning);"><b>'+s.title+'</b><div class="transit-detail">'+s.hint+' (點擊可編輯)</div></div></div>';
+                } else {
+                    var badge = s.badge ? '<span class="badge">'+s.badge+'</span>' : '';
+                    var list = '<div class="memo-container">';
+                    for(var j=0; j<s.items.length; j++){
+                        var id = currentDayIdx+'-'+i+'-'+j;
+                        var checked = appState.items[id] ? 'checked' : '';
+                        list += '<div class="check-item '+checked+'"><input type="checkbox" '+checked+' onchange="toggleList(\''+id+'\')"><span>'+s.items[j]+'</span></div>';
+                    }
+                    list += '<div class="add-input-row"><input id="add-'+currentDayIdx+'-'+i+'" placeholder="新增清單..."><button onclick="addListItem('+currentDayIdx+','+i+')">加</button></div></div>';
+                    
+                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="timeline-content"><img src="'+s.img+'" class="spot-img"><div class="spot-body"><div class="spot-title">'+s.title+badge+'</div>'+list+'</div></div></div>';
+                }
+                cont.innerHTML += html;
+            }
+        }
+    </script>
+</body>
+</html>
