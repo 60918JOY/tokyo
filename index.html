@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>東京 | 富士血拼之旅</title>
+    <title>東京 | 人生有點煩惱 我想要去淺草</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -24,11 +24,12 @@
         /* 頂部富士山 Banner */
         .hero-banner {
             position: relative; width: 100%; height: 250px;
-            background-image: url('https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?q=80&w=800&auto=format&fit=crop');
-            background-size: cover; background-position: center 30%;
+            /* 精選高質感富士山照片 */
+            background-image: url('https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?q=80&w=800&auto=format&fit=crop');
+            background-size: cover; background-position: center 40%;
             display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
         }
-        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.35); z-index: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1; }
         .hero-content { position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 20px; }
         .hero-content h1 { font-size: 26px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
         .hero-content p { font-size: 13px; opacity: 0.95; letter-spacing: 1px; font-weight: 600; text-shadow: 0 1px 5px rgba(0,0,0,0.8); }
@@ -307,15 +308,15 @@
             renderTimeline();
         }
 
-        // 核心資料庫 (完美重建所有特殊 UI、交通、清單)
+        // 核心資料庫
         var currentDayIdx = 0;
         var appState = { items: {}, meals: {}, numSugar: [], matcha: 0 };
         
         var db = [
             [ // D1
                 { type: "spot", time: "06:30", title: "成田機場 T1抵達", img: "https://images.unsplash.com/photo-1574182245536-6668ea8af6df?q=80&w=800", items: ["入境通關", "拿行李"] },
-                { type: "transit", route: "京成 Skyliner (成田 ➔ 日暮里 ➔ 池袋)", detail: "約 60 分鐘 ｜ ¥2,480 /人" },
-                { type: "spot", time: "09:00", title: "池袋之家", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800", items: ["寄放行李"] },
+                { type: "transit", route: "機場巴士 (成田 ➔ 池袋)", detail: "07:30 準時發車 ｜ 票券已購買 ✅" },
+                { type: "spot", time: "09:30", title: "池袋之家", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800", items: ["寄放行李"] },
                 { type: "transit", route: "步行前往", detail: "約 15 分鐘" },
                 { type: "spot", time: "10:00", title: "池袋 Sunshine City", img: "https://images.unsplash.com/photo-1542051812871-75f10b7a8a05?q=80&w=800", badge: "免稅商場", items: ["fukuya推活周邊", "Disney Store (1F)", "Pokemon Center (2F)", "蠟筆小新/扭蛋 (2F/3F)", "衣服 (B1/B2)"] },
                 { type: "meal", id: "m1-1", time: "12:30", title: "午餐候選", hint: "Sunshine City內 或 附近吃" },
@@ -387,7 +388,7 @@
         ];
 
         window.onload = function() {
-            var saved = localStorage.getItem('tokyoFinal_v5');
+            var saved = localStorage.getItem('tokyoFinal_v6');
             if(saved) appState = JSON.parse(saved);
             if(!appState.numSugar) appState.numSugar = [];
             if(appState.matcha === undefined) appState.matcha = 0;
@@ -395,9 +396,8 @@
             calcCurrency();
         };
 
-        function saveState() { localStorage.setItem('tokyoFinal_v5', JSON.stringify(appState)); }
+        function saveState() { localStorage.setItem('tokyoFinal_v6', JSON.stringify(appState)); }
 
-        // 特殊 UI 邏輯
         function toggleNum(n) {
             var idx = appState.numSugar.indexOf(n);
             if(idx > -1) appState.numSugar.splice(idx, 1); else appState.numSugar.push(n);
@@ -447,32 +447,4 @@
                         extraUI = '<div style="font-size:13px; font-weight:800; margin-top:8px;">挑選口味 (1~12)：</div><div class="grid-ui">'+btns+'</div>';
                     } else if(s.ui === 'matcha'){
                         var mBtns = '';
-                        var colors = ['#b8e994','#78e08f','#00b894','#00a8ff','#192a56','#273c75','#2d3436'];
-                        for(var m=1; m<=7; m++){
-                            var mAct = appState.matcha === m ? 'active' : '';
-                            mBtns += '<div class="matcha-btn '+mAct+'" style="background:'+colors[m-1]+'" onclick="setMatcha('+m+')">'+m+'</div>';
-                        }
-                        extraUI = '<div style="font-size:13px; font-weight:800; margin-top:8px;">選擇抹茶濃度 (7最濃)：</div><div class="matcha-row">'+mBtns+'</div>';
-                    }
-
-                    var cClass = s.ui === 'chiikawa' ? 'timeline-content chiikawa-mode' : 'timeline-content';
-                    var alertH = s.alert ? '<div class="alert-badge">'+s.alert+'</div>' : '';
-                    var badgeH = s.badge ? '<span class="badge '+(s.badgeClass||'badge-tax')+'">'+s.badge+'</span>' : '';
-                    
-                    var listH = '<div class="memo-container">';
-                    for(var j=0; j<s.items.length; j++){
-                        var id = currentDayIdx+'-'+i+'-'+j;
-                        var chk = appState.items[id] ? 'checked' : '';
-                        listH += '<div class="check-item '+chk+'"><input type="checkbox" '+chk+' onchange="toggleList(\''+id+'\')"><span>'+s.items[j]+'</span></div>';
-                    }
-                    listH += '<div class="add-input-row"><input id="add-'+currentDayIdx+'-'+i+'" placeholder="輸入商品..."><button onclick="addListItem('+currentDayIdx+','+i+')">加</button></div></div>';
-                    
-                    var navQ = encodeURIComponent(s.title.split(' ')[0]);
-                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="'+cClass+'"><img src="'+s.img+'" class="spot-img"><div class="spot-body">'+alertH+'<div class="spot-title">'+s.title+' <a href="https://www.google.com/maps/search/?api=1&query='+navQ+'" target="_blank" style="font-size:12px; color:var(--active-blue-text); text-decoration:none;"><i class="fa-solid fa-location-arrow"></i> 導航</a></div><div style="margin-bottom:5px;">'+badgeH+'</div>'+extraUI+listH+'</div></div></div>';
-                }
-                cont.innerHTML += html;
-            }
-        }
-    </script>
-</body>
-</html>
+                        var colors = ['#b8e994','#78e08f','#00b894','#00a8ff','#192a56','#273c
