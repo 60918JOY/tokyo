@@ -3,294 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>東京 | 購物拾光</title>
+    <title>眼淚可以流 日幣不能留</title>
     <style>
-        /* 日式文青色系與字體設定 */
+        /* 可愛粉藍色系配置 */
         :root {
-            --bg-paper: #F7F5F0; /* 米白宣紙色 */
-            --text-ink: #4A4543; /* 深墨色 */
-            --text-light: #8B8581; /* 淺褐色 */
-            --accent-green: #7B8B6F; /* 抹茶綠 */
-            --accent-brown: #A38061; /* 木質棕 */
-            --border-line: #E2DDD5;
-            --white: #FFFFFF;
+            --primary: #74b9ff; /* 天空藍 */
+            --primary-dark: #0984e3; /* 深海藍 */
+            --bg-color: #f1f8ff; /* 極淺藍背景 */
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --accent: #fdcb6e; /* 活潑黃色點綴 */
+            --danger: #ff7675;
+            --radius: 18px; /* 圓潤感 */
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* 使用典雅的字體組合 */
-            font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+            font-family: "Nunito", "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-paper);
-            color: var(--text-ink);
+            background-color: var(--bg-color);
+            color: var(--text-main);
             padding-bottom: 80px;
             font-size: 15px;
-            line-height: 1.6;
         }
 
-        /* 頂部導航 - 極簡風 */
+        /* 頂部標頭 */
         header {
-            background-color: var(--bg-paper);
-            color: var(--text-ink);
+            background: linear-gradient(135deg, #a29bfe, var(--primary));
+            color: white;
             padding: 20px 15px 15px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid var(--border-line);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.2);
         }
 
         header h1 {
             font-size: 18px;
-            font-weight: normal;
-            letter-spacing: 2px;
-            flex-grow: 1;
+            font-weight: 800;
+            letter-spacing: 1px;
         }
 
-        .btn-mode {
-            background: transparent;
-            border: 1px solid var(--text-ink);
-            color: var(--text-ink);
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-mode.active {
-            background: var(--text-ink);
-            color: var(--bg-paper);
-        }
-
-        /* 日期選擇列 */
+        /* 天數選擇橫列 (模仿影片) */
         .day-selector {
             display: flex;
             overflow-x: auto;
-            background: rgba(247, 245, 240, 0.95);
-            padding: 12px 10px;
-            position: sticky;
-            top: 61px;
-            z-index: 99;
-            border-bottom: 1px dashed var(--border-line);
+            padding: 15px 10px 5px;
             scrollbar-width: none;
         }
         .day-selector::-webkit-scrollbar { display: none; }
 
         .day-btn {
             flex: 0 0 auto;
-            padding: 6px 14px;
+            padding: 8px 18px;
             margin: 0 6px;
-            background: transparent;
-            color: var(--text-light);
-            border: none;
-            font-size: 14px;
-            letter-spacing: 1px;
-            border-bottom: 2px solid transparent;
+            border-radius: 20px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 2px solid transparent;
+            font-weight: bold;
+            font-size: 13px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            transition: all 0.3s;
         }
 
         .day-btn.active {
-            color: var(--accent-green);
-            border-bottom: 2px solid var(--accent-green);
-            font-weight: bold;
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(116, 185, 255, 0.4);
         }
 
         .container {
-            padding: 20px 15px;
+            padding: 15px;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        .tab-panel { display: none; }
+        .tab-panel { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-panel.active { display: block; }
 
-        /* 文青風卡片設計 */
-        .card {
-            background: var(--white);
-            border: 1px solid var(--border-line);
-            padding: 18px;
-            margin-bottom: 15px;
-            position: relative;
-            border-left: 4px solid var(--accent-green);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .card.transport { border-left-color: var(--accent-brown); }
-        .card.hotel { border-left-color: #8D99AE; }
+        /* 卡片共用樣式 */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border-left: 6px solid var(--primary);
+        }
 
         .card-header {
             display: flex;
-            align-items: baseline;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 8px;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         .card-time {
-            font-size: 13px;
-            color: var(--accent-green);
+            font-size: 12px;
+            color: var(--primary-dark);
+            background: #dfe6e9;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 800;
             margin-right: 12px;
-            font-family: sans-serif;
-            font-weight: bold;
         }
 
         .card-title {
             font-size: 16px;
-            color: var(--text-ink);
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        /* 行程專屬子清單 */
+        .spot-checklist {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .spot-checklist-title {
+            font-size: 12px;
+            color: var(--primary-dark);
             font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        /* 商店標籤 - 印章/標籤感 */
-        .shop-box {
-            margin-top: 12px;
-        }
-
-        .shop-title {
-            font-size: 13px;
-            color: var(--text-light);
             margin-bottom: 8px;
-        }
-
-        .tags-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .tag {
-            background: #F9F9F9;
-            color: var(--text-ink);
-            padding: 4px 10px;
-            font-size: 12px;
-            border: 1px solid #EAEAEA;
-            font-family: sans-serif;
-        }
-
-        /* 按鈕與連結 */
-        .map-btn {
-            display: inline-block;
-            color: var(--accent-brown);
-            text-decoration: none;
-            font-size: 13px;
-            margin-top: 12px;
-            border-bottom: 1px solid var(--accent-brown);
-            padding-bottom: 2px;
-        }
-
-        .edit-controls {
-            display: none;
-            margin-top: 15px;
-            justify-content: flex-end;
-            gap: 8px;
-            padding-top: 10px;
-        }
-
-        .btn-action {
-            background: transparent;
-            padding: 4px 10px;
-            border: 1px solid var(--border-line);
-            font-size: 12px;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-        .btn-action:hover { border-color: var(--text-ink); color: var(--text-ink); }
-        
-        .btn-add-spot {
-            width: 100%;
-            padding: 15px;
-            background: transparent;
-            border: 1px dashed var(--accent-green);
-            color: var(--accent-green);
-            letter-spacing: 1px;
-            display: none;
-            margin-top: 15px;
-        }
-
-        /* 清單設計 */
-        h2.section-title {
-            font-size: 16px;
-            font-weight: normal;
-            border-bottom: 1px solid var(--text-ink);
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
-
-        .shop-list-item {
+        .checklist-item {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-line);
+            padding: 6px 0;
+            font-size: 14px;
         }
 
-        .shop-list-item input[type="checkbox"] {
-            margin-right: 15px;
-            width: 16px;
-            height: 16px;
-            accent-color: var(--accent-green);
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-dark);
         }
 
-        .shop-list-text {
-            flex-grow: 1;
-            font-size: 15px;
-        }
-
-        .shop-list-item.checked .shop-list-text {
+        .checklist-item.checked span {
             text-decoration: line-through;
-            color: var(--text-light);
+            color: var(--text-muted);
         }
 
-        .delete-btn {
-            color: #d63031;
+        .btn-add-mini {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary-dark);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
             cursor: pointer;
-            font-family: sans-serif;
-            font-size: 12px;
-            padding: 4px;
         }
 
-        .add-shop-item-form {
-            display: flex;
-            gap: 10px;
+        /* 標籤分類樣式 */
+        .tag-group {
             margin-bottom: 20px;
         }
+        .tag-title {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-        .add-shop-item-form input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid var(--border-line);
-            background: var(--white);
+        /* 新增清單輸入框 */
+        .input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            background: white;
+            padding: 8px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .input-group select, .input-group input {
+            border: 1px solid #dfe6e9;
+            padding: 8px;
+            border-radius: 8px;
             outline: none;
-            font-family: sans-serif;
         }
-
-        .add-shop-item-form button {
-            padding: 10px 18px;
-            background: var(--text-ink);
-            color: var(--white);
+        .input-group input { flex-grow: 1; }
+        .input-group button {
+            background: var(--primary);
+            color: white;
             border: none;
-            cursor: pointer;
+            border-radius: 8px;
+            padding: 0 15px;
+            font-weight: bold;
         }
 
-        /* 底部導航 */
+        /* 連結與清單條目 */
+        .list-box {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            margin-bottom: 16px;
+        }
+
+        .list-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        .list-row:last-child { border-bottom: none; }
+        
+        .list-row a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 底部導航 (影片風格) */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             height: 65px;
-            background: var(--white);
+            background: var(--card-bg);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: 1px solid var(--border-line);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.04);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
             z-index: 1000;
         }
 
@@ -298,382 +264,145 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--text-light);
+            color: #b2bec3;
             text-decoration: none;
-            font-size: 11px;
+            font-size: 10px;
+            font-weight: 800;
             background: none;
             border: none;
             cursor: pointer;
-            width: 25%;
-            letter-spacing: 1px;
+            width: 20%;
         }
 
         .nav-item.active {
-            color: var(--accent-green);
+            color: var(--primary-dark);
         }
 
         .nav-icon {
-            font-size: 18px;
+            font-size: 22px;
             margin-bottom: 4px;
-            font-family: sans-serif;
         }
 
-        .info-list { list-style: none; }
-        .info-list li {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-line);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .info-label { font-size: 12px; color: var(--text-light); }
-        .info-value { font-size: 15px; color: var(--text-ink); }
+        .delete-text { color: var(--danger); font-size: 12px; margin-left:10px;}
     </style>
 </head>
 <body>
 
     <header>
-        <h1 id="header-title">東京拾光</h1>
-        <button class="btn-mode" id="editModeBtn" onclick="toggleEditMode()">編 輯</button>
+        <h1>✈️ 東京購物狂歡 7 Days</h1>
     </header>
 
-    <div class="day-selector" id="daySelector">
-        <button class="day-btn active" onclick="switchDay(0)">7/9 木</button>
-        <button class="day-btn" onclick="switchDay(1)">7/10 金</button>
-        <button class="day-btn" onclick="switchDay(2)">7/11 土</button>
-        <button class="day-btn" onclick="switchDay(3)">7/12 日</button>
-        <button class="day-btn" onclick="switchDay(4)">7/13 月</button>
-        <button class="day-btn" onclick="switchDay(5)">7/14 火</button>
-        <button class="day-btn" onclick="switchDay(6)">7/15 水</button>
-    </div>
-
     <div class="container">
-        <div id="panel-itinerary" class="tab-panel active">
-            <div id="itinerary-list"></div>
-            <button class="btn-add-spot" id="addSpotBtn" onclick="addNewSpotPrompt()">+ 增 添 行 程</button>
+        
+        <div id="panel-overview" class="tab-panel active">
+            <h2 style="font-size: 16px; color: var(--text-main); margin-bottom: 12px;">🛫 航班資訊</h2>
+            <div class="list-box">
+                <div class="list-row" style="flex-direction: column; align-items: flex-start; gap: 5px;">
+                    <div style="font-size: 12px; color: var(--text-muted);">去程 (7/9 木) | 樂桃 MM620</div>
+                    <div style="font-weight: bold;">02:00 TPE (桃園T1) ➔ 06:30 NRT (成田T1)</div>
+                </div>
+                <div class="list-row" style="flex-direction: column; align-items: flex-start; gap: 5px;">
+                    <div style="font-size: 12px; color: var(--text-muted);">回程 (7/15 水) | 樂桃 MM627</div>
+                    <div style="font-weight: bold;">22:15 NRT (成田T1) ➔ 01:00 TPE (桃園T1)</div>
+                </div>
+            </div>
+
+            <h2 style="font-size: 16px; color: var(--text-main); margin: 20px 0 12px;">🏨 住宿一覽</h2>
+            <div class="list-box">
+                <div class="list-row" style="flex-direction: column; align-items: flex-start; gap: 5px;">
+                    <div style="font-weight: bold;">池袋之家 (House Ikebukuro)</div>
+                    <div style="font-size: 13px; color: var(--text-muted);">入住: 7/9 | 退房: 7/15 (共6晚)</div>
+                    <div style="font-size: 12px; color: var(--primary-dark); margin-top:4px;">📍 2-20-1, Ikebukuro, Toshima-ku, Tokyo</div>
+                </div>
+            </div>
+
+            <h2 style="font-size: 16px; color: var(--text-main); margin: 20px 0 12px;">💡 預算與提醒</h2>
+            <div class="list-box">
+                <div class="list-row">
+                    <span>💵 已兌換現鈔</span>
+                    <span style="font-weight:bold;">NT$ 12,000 (約 5.4萬日圓)</span>
+                </div>
+                <div class="list-row">
+                    <span>📱 數位支付</span>
+                    <span style="font-size: 13px; color:var(--text-muted);">請確認綁定 Apple Pay Suica</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="panel-itinerary" class="tab-panel">
+            <div class="day-selector" id="daySelector">
+                <button class="day-btn active" onclick="switchDay(0)">7/9 D1</button>
+                <button class="day-btn" onclick="switchDay(1)">7/10 D2</button>
+                <button class="day-btn" onclick="switchDay(2)">7/11 D3</button>
+                <button class="day-btn" onclick="switchDay(3)">7/12 D4</button>
+                <button class="day-btn" onclick="switchDay(4)">7/13 D5</button>
+                <button class="day-btn" onclick="switchDay(5)">7/14 D6</button>
+                <button class="day-btn" onclick="switchDay(6)">7/15 D7</button>
+            </div>
+            <div id="itinerary-list" style="margin-top:15px;"></div>
         </div>
 
         <div id="panel-shopping" class="tab-panel">
-            <h2 class="section-title">購 物 備 忘 錄</h2>
-            <div class="add-shop-item-form">
-                <input type="text" id="newShopItemInput" placeholder="記下心儀之物...">
-                <button onclick="addShoppingItem()">記 錄</button>
+            <div class="input-group">
+                <select id="shopTagInput">
+                    <option value="池袋">池袋</option>
+                    <option value="原宿/澀谷">原宿/澀谷</option>
+                    <option value="秋葉原">秋葉原</option>
+                    <option value="新宿">新宿</option>
+                    <option value="免稅藥妝">免稅藥妝</option>
+                    <option value="其他">其他</option>
+                </select>
+                <input type="text" id="shopItemInput" placeholder="想買什麼？">
+                <button onclick="addGlobalShopping()">新增</button>
             </div>
-            <div id="shopping-list-container"></div>
+            <div id="global-shopping-container"></div>
         </div>
 
-        <div id="panel-info" class="tab-panel">
-            <h2 class="section-title">旅 途 資 訊</h2>
-            <ul class="info-list">
-                <li>
-                    <span class="info-label">宿 泊</span>
-                    <span class="info-value">池袋之家 (House Ikebukuro)</span>
-                </li>
-                <li>
-                    <span class="info-label">地 址</span>
-                    <span class="info-value" style="font-family:sans-serif; font-size:14px;">2-20-1, Ikebukuro, Toshima-ku, Tokyo</span>
-                    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=池袋之家" target="_blank">地圖導覽</a>
-                </li>
-                <li>
-                    <span class="info-label">往 路 (7/9)</span>
-                    <span class="info-value" style="font-family:sans-serif;">02:00 TPE → 06:30 NRT (樂桃 MM620)</span>
-                </li>
-                <li>
-                    <span class="info-label">復 路 (7/15)</span>
-                    <span class="info-value" style="font-family:sans-serif;">22:15 NRT → 01:00 TPE (樂桃 MM627)</span>
-                </li>
-            </ul>
+        <div id="panel-links" class="tab-panel">
+            <h2 style="font-size: 16px; color: var(--text-main); margin-bottom: 12px;">🗺️ 重要地圖導航</h2>
+            <div class="list-box">
+                <div class="list-row"><a href="https://maps.google.com/?q=House+Ikebukuro+Tokyo" target="_blank">📍 住宿：池袋之家</a></div>
+                <div class="list-row"><a href="https://maps.google.com/?q=成田國際機場第1航廈" target="_blank">✈️ 成田機場 T1</a></div>
+                <div class="list-row"><a href="https://maps.google.com/?q=Sunshine+City+Tokyo" target="_blank">🛍️ 池袋 Sunshine City</a></div>
+                <div class="list-row"><a href="https://maps.google.com/?q=東京迪士尼海洋" target="_blank">🌋 東京迪士尼海洋</a></div>
+                <div class="list-row"><a href="https://maps.google.com/?q=kesatokyo+淺草" target="_blank">👘 淺草 kesatokyo (和服)</a></div>
+            </div>
+
+            <h2 style="font-size: 16px; color: var(--text-main); margin: 20px 0 12px;">🔗 必備網站</h2>
+            <div class="list-box">
+                <div class="list-row"><a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank">🛂 Visit Japan Web (入境)</a></div>
+                <div class="list-row"><a href="https://www.tokyodisneyresort.jp/tc/tds/" target="_blank">🏰 迪士尼官方網站</a></div>
+            </div>
         </div>
 
         <div id="panel-packing" class="tab-panel">
-            <h2 class="section-title">行 囊 點 檢</h2>
-            <div id="packing-list-container"></div>
+            <h2 style="font-size: 16px; color: var(--text-main); margin-bottom: 12px;">🧳 掃貨裝備點檢</h2>
+            <div class="list-box" id="packing-container"></div>
         </div>
+
     </div>
 
     <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('itinerary', this)">
-            <span class="nav-icon">◒</span><span>行 程</span>
+        <button class="nav-item active" onclick="switchTab('overview', this)">
+            <span class="nav-icon">🏠</span><span>總覽</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('itinerary', this)">
+            <span class="nav-icon">📍</span><span>行程</span>
         </button>
         <button class="nav-item" onclick="switchTab('shopping', this)">
-            <span class="nav-icon">◎</span><span>購 物</span>
+            <span class="nav-icon">🛍️</span><span>購物</span>
         </button>
-        <button class="nav-item" onclick="switchTab('info', this)">
-            <span class="nav-icon">⌂</span><span>宿 泊</span>
+        <button class="nav-item" onclick="switchTab('links', this)">
+            <span class="nav-icon">🔗</span><span>連結</span>
         </button>
         <button class="nav-item" onclick="switchTab('packing', this)">
-            <span class="nav-icon">◩</span><span>行 囊</span>
+            <span class="nav-icon">🧳</span><span>行李</span>
         </button>
     </nav>
 
     <script>
-        // 預設行程資料
+        // --- 資料初始化 ---
         const defaultItinerary = [
-            {
-                day: "Day 1",
-                spots: [
-                    { time: "06:30", type: "transport", title: "成田機場 T1 著", maps: "成田國際機場第1航廈" },
-                    { time: "09:00", type: "hotel", title: "池袋之家 行李寄放", maps: "House Ikebukuro" },
-                    { time: "10:00", type: "spot", title: "池袋 Sunshine City", maps: "Sunshine City Tokyo", shops: ["fukuya", "Disney Store", "Sanrio", "Rodeo Crowns", "Pokemon Center", "蠟筆小新", "Kiddy Land", "吉卜力", "graniph"] },
-                    { time: "11:00", type: "spot", title: "池袋 PARCO", maps: "池袋PARCO", shops: ["coly pop 谷美", "世界堂", "吉伊卡哇餐廳", "Snidel", "動漫店"] },
-                    { time: "11:00", type: "spot", title: "池袋 LUMINE", maps: "LUMINE池袋", shops: ["Snidel", "Emoda"] },
-                    { time: "隨性", type: "spot", title: "池袋周邊散策", maps: "池袋站", shops: ["Chiikawa專區", "K-BOOKS", "指南針", "Animate", "駿河屋", "LOFT", "Pet Paradise", "GU"] }
-                ]
-            },
-            {
-                day: "Day 2",
-                spots: [
-                    { time: "10:00", type: "spot", title: "原宿竹下通 / 表參道", maps: "原宿竹下通", shops: ["Pet Paradise", "fukuya", "哈利波特", "Number Sugar", "美少女戰士", "graniph", "Kiddy Land", "Laforet", "malya"] },
-                    { time: "13:00", type: "spot", title: "澀谷 109", maps: "SHIBUYA109", shops: ["Emoda", "Liz Lisa", "Resexxy", "Dazzlin", "Majestic Legon", "Kastane"] },
-                    { time: "16:00", type: "spot", title: "澀谷 PARCO", maps: "澀谷PARCO", shops: ["Chiikawa", "Jump Shop", "Snidel", "寶可夢"] },
-                    { time: "18:00", type: "spot", title: "澀谷街頭尋寶", maps: "澀谷站", shops: ["LOFT", "Village Vanguard", "Disney Store", "Animate", "唐吉訶德", "Tower Records", "Adidas"] }
-                ]
-            },
-            {
-                day: "Day 3",
-                spots: [
-                    { time: "10:00", type: "spot", title: "神田明神 參拜", maps: "神田明神", shops: [] },
-                    { time: "11:30", type: "spot", title: "秋葉原 電器街", maps: "秋葉原站", shops: ["Animate", "駿河屋", "K-BOOKS", "Gamers", "GiGO", "Volks Hobby", "Yodobashi", "atré Cospa", "LoveLive", "3Coins", "graniph"] },
-                    { time: "15:00", type: "spot", title: "晴空塔 SkyTree", maps: "東京晴空塔", shops: ["Conan Plaza", "Chiikawa", "Disney Store", "Tree Village", "Jump Shop", "Pokemon Center", "Sanrio", "NHK"] },
-                    { time: "18:30", type: "spot", title: "東京車站一番街", maps: "東京車站一番街", shops: ["蠟筆小新", "寶可夢", "吉伊卡哇", "宮崎駿"] }
-                ]
-            },
-            {
-                day: "Day 4",
-                spots: [
-                    { time: "10:30", type: "spot", title: "新宿丸井百貨", maps: "新宿丸井百貨 本館", shops: ["Chiikawa", "指南針", "駿河屋", "Animate", "Snidel"] },
-                    { time: "13:00", type: "spot", title: "新宿 LUMINE 2", maps: "LUMINE 2 新宿", shops: ["Snidel"] },
-                    { time: "15:00", type: "spot", title: "新宿 LUMINE EST", maps: "LUMINE EST 新宿", shops: ["Liz Lisa", "Emoda", "Resexxy"] },
-                    { time: "17:30", type: "spot", title: "新宿街頭", maps: "新宿站", shops: ["Pet Paradise", "JINS"] },
-                    { time: "20:00", type: "spot", title: "池袋在地超市", maps: "池袋站", shops: ["超市生鮮", "超商甜點"] }
-                ]
-            },
-            {
-                day: "Day 5",
-                spots: [
-                    { time: "09:00", type: "spot", title: "kesatokyo 和服體驗", maps: "kesatokyo", shops: [] },
-                    { time: "11:00", type: "spot", title: "淺草雷門與仲見世通", maps: "淺草寺 雷門", shops: ["かみみつや(團子)", "壽壽喜園", "淺草炸肉餅"] }
-                ]
-            },
-            {
-                day: "Day 6",
-                spots: [
-                    { time: "08:40", type: "spot", title: "東京迪士尼海洋", maps: "東京迪士尼海洋", shops: ["達菲熊周邊", "Fantasy Springs"] }
-                ]
-            },
-            {
-                day: "Day 7",
-                spots: [
-                    { time: "10:00", type: "spot", title: "池袋唐吉訶德 最終採買", maps: "唐吉訶德 池袋東口店", shops: ["藥妝", "零食"] },
-                    { time: "14:00", type: "hotel", title: "池袋之家 提取行囊", maps: "House Ikebukuro", shops: [] },
-                    { time: "18:00", type: "transport", title: "成田機場 T1 歸途", maps: "成田國際機場第1航廈", shops: [] }
-                ]
-            }
-        ];
-
-        const defaultPacking = [
-            { text: "護照與 Visit Japan Web 憑證", checked: false },
-            { text: "手提行李電子秤", checked: false },
-            { text: "折疊式擴充購物袋", checked: false },
-            { text: "海外回饋信用卡", checked: false },
-            { text: "行動電源與充電線材", checked: false },
-            { text: "舒適耐走的鞋履", checked: false },
-            { text: "休足時間/痠痛貼布", checked: false }
-        ];
-
-        // 為了確保不被舊快取干擾，更新了儲存鍵值 (v3)
-        let itineraryData = JSON.parse(localStorage.getItem('tokyo_itinerary_v3')) || defaultItinerary;
-        let shoppingList = JSON.parse(localStorage.getItem('tokyo_shopping_v3')) || [];
-        let packingData = JSON.parse(localStorage.getItem('tokyo_packing_v3')) || defaultPacking;
-        
-        let currentDayIndex = 0;
-        let isEditMode = false;
-
-        window.onload = function() {
-            renderItinerary();
-            renderShoppingList();
-            renderPackingList();
-        };
-
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            document.getElementById(`panel-${tabId}`).classList.add('active');
-            element.classList.add('active');
-            document.getElementById('daySelector').style.display = (tabId === 'itinerary') ? 'flex' : 'none';
-        }
-
-        function switchDay(index) {
-            currentDayIndex = index;
-            document.querySelectorAll('.day-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === index);
-            });
-            renderItinerary();
-        }
-
-        function toggleEditMode() {
-            isEditMode = !isEditMode;
-            const btn = document.getElementById('editModeBtn');
-            btn.classList.toggle('active', isEditMode);
-            btn.innerText = isEditMode ? "完 成" : "編 輯";
-            
-            document.querySelectorAll('.edit-controls').forEach(el => el.style.display = isEditMode ? 'flex' : 'none');
-            document.getElementById('addSpotBtn').style.display = isEditMode ? 'block' : 'none';
-            
-            if(!isEditMode) saveToLocalStorage();
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('tokyo_itinerary_v3', JSON.stringify(itineraryData));
-            localStorage.setItem('tokyo_shopping_v3', JSON.stringify(shoppingList));
-            localStorage.setItem('tokyo_packing_v3', JSON.stringify(packingData));
-        }
-
-        function renderItinerary() {
-            const listContainer = document.getElementById('itinerary-list');
-            listContainer.innerHTML = '';
-            const currentDay = itineraryData[currentDayIndex];
-            
-            if (!currentDay.spots || currentDay.spots.length === 0) {
-                listContainer.innerHTML = `<p style="text-align:center;color:var(--text-light);padding:30px;">是日留白，點擊編輯以記錄行程。</p>`;
-                return;
-            }
-
-            currentDay.spots.forEach((spot, index) => {
-                const card = document.createElement('div');
-                card.className = `card ${spot.type || 'spot'}`;
-                
-                let shopsHTML = '';
-                if (spot.shops && spot.shops.length > 0) {
-                    const tags = spot.shops.map(shop => `<span class="tag">${shop}</span>`).join('');
-                    shopsHTML = `
-                        <div class="shop-box">
-                            <div class="shop-title">📝 探訪清單</div>
-                            <div class="tags-container">${tags}</div>
-                        </div>
-                    `;
-                }
-
-                // 完全修正的 Google Maps 官方查詢 API
-                const mapQuery = encodeURIComponent(spot.maps || spot.title);
-                const mapUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
-
-                card.innerHTML = `
-                    <div class="card-header">
-                        <span class="card-time">${spot.time}</span>
-                        <div style="flex-grow:1;">
-                            <div class="card-title">${spot.title}</div>
-                        </div>
-                    </div>
-                    ${shopsHTML}
-                    <a class="map-btn" href="${mapUrl}" target="_blank">在地圖上查看</a>
-                    <div class="edit-controls" style="display: ${isEditMode ? 'flex' : 'none'}">
-                        <button class="btn-action" onclick="moveSpot(${index}, -1)">上 移</button>
-                        <button class="btn-action" onclick="moveSpot(${index}, 1)">下 移</button>
-                        <button class="btn-action" style="color:#d63031; border-color:#d63031;" onclick="deleteSpot(${index})">刪 除</button>
-                    </div>
-                `;
-                listContainer.appendChild(card);
-            });
-        }
-
-        function moveSpot(index, direction) {
-            const spots = itineraryData[currentDayIndex].spots;
-            const targetIndex = index + direction;
-            if (targetIndex < 0 || targetIndex >= spots.length) return;
-            const temp = spots[index];
-            spots[index] = spots[targetIndex];
-            spots[targetIndex] = temp;
-            renderItinerary();
-            saveToLocalStorage();
-        }
-
-        function deleteSpot(index) {
-            if (confirm("是否抹除此筆行程？")) {
-                itineraryData[currentDayIndex].spots.splice(index, 1);
-                renderItinerary();
-                saveToLocalStorage();
-            }
-        }
-
-        function addNewSpotPrompt() {
-            const title = prompt("地點名稱：");
-            if (!title) return;
-            const time = prompt("預定時間（例：14:30）：", "隨性");
-            const rawShops = prompt("清單細項（多個請用逗號分隔）：");
-            const shops = rawShops ? rawShops.split(/[,，]/).map(s => s.trim()) : [];
-            
-            itineraryData[currentDayIndex].spots.push({
-                time: time || "隨性",
-                type: "spot",
-                title: title,
-                maps: title,
-                shops: shops
-            });
-            renderItinerary();
-            saveToLocalStorage();
-        }
-
-        function renderShoppingList() {
-            const container = document.getElementById('shopping-list-container');
-            container.innerHTML = '';
-            if(shoppingList.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-light); text-align:center; padding:20px;">尚無記錄。</p>`;
-                return;
-            }
-            shoppingList.forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = `shop-list-item ${item.checked ? 'checked' : ''}`;
-                row.innerHTML = `
-                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleShoppingItem(${index})">
-                    <span class="shop-list-text">${item.text}</span>
-                    <span class="delete-btn" onclick="deleteShoppingItem(${index})">刪除</span>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function addShoppingItem() {
-            const input = document.getElementById('newShopItemInput');
-            const text = input.value.trim();
-            if(!text) return;
-            shoppingList.push({ text: text, checked: false });
-            input.value = '';
-            renderShoppingList();
-            saveToLocalStorage();
-        }
-
-        function toggleShoppingItem(index) {
-            shoppingList[index].checked = !shoppingList[index].checked;
-            renderShoppingList();
-            saveToLocalStorage();
-        }
-
-        function deleteShoppingItem(index) {
-            shoppingList.splice(index, 1);
-            renderShoppingList();
-            saveToLocalStorage();
-        }
-
-        function renderPackingList() {
-            const container = document.getElementById('packing-list-container');
-            container.innerHTML = '';
-            packingData.forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = `shop-list-item ${item.checked ? 'checked' : ''}`;
-                row.innerHTML = `
-                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePackingItem(${index})">
-                    <span class="shop-list-text">${item.text}</span>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function togglePackingItem(index) {
-            packingData[index].checked = !packingData[index].checked;
-            renderPackingList();
-            saveToLocalStorage();
-        }
-    </script>
-</body>
-</html>
+            { day: "D1", spots: [
+                { time: "06:30", title: "抵達成田機場 T1", items: [] },
+                { time: "
