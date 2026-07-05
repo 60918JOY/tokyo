@@ -2,42 +2,42 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>眼淚可以流 日幣不能留</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>東京購物狂歡 App</title>
     <style>
-        /* 可愛粉藍色系配置 */
         :root {
-            --primary: #74b9ff; /* 天空藍 */
-            --primary-dark: #0984e3; /* 深海藍 */
-            --bg-color: #f1f8ff; /* 極淺藍背景 */
+            --primary: #74b9ff;
+            --primary-dark: #0984e3;
+            --bg-color: #f1f8ff;
             --card-bg: #ffffff;
             --text-main: #2d3436;
             --text-muted: #636e72;
-            --accent: #fdcb6e; /* 活潑黃色點綴 */
+            --accent: #fdcb6e;
             --danger: #ff7675;
-            --radius: 18px; /* 圓潤感 */
+            --radius: 18px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: "Nunito", "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding-bottom: 80px;
+            /* 針對 iPhone 底部安全區域加強留白 */
+            padding-bottom: calc(85px + env(safe-area-inset-bottom, 20px));
             font-size: 15px;
         }
 
-        /* 頂部標頭 */
         header {
             background: linear-gradient(135deg, #a29bfe, var(--primary));
             color: white;
-            padding: 20px 15px 15px;
+            /* 針對 iPhone 頂部瀏海/動態島加強留白 */
+            padding: calc(15px + env(safe-area-inset-top, 10px)) 15px 15px;
             text-align: center;
             position: sticky;
             top: 0;
@@ -45,17 +45,20 @@
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
             box-shadow: 0 4px 15px rgba(116, 185, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         header h1 {
             font-size: 18px;
             font-weight: 800;
             letter-spacing: 1px;
+            flex-grow: 1;
         }
 
-        /* 天數選擇橫列 (模仿影片) */
         .day-selector {
-            display: flex;
+            display: none; /* 預設隱藏，只有切換到行程時才打開 */
             overflow-x: auto;
             padding: 15px 10px 5px;
             scrollbar-width: none;
@@ -88,15 +91,8 @@
             margin: 0 auto;
         }
 
-        .tab-panel { display: none; animation: fadeIn 0.3s ease-in-out; }
-        .tab-panel.active { display: block; }
+        .tab-panel { display: none; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 卡片共用樣式 */
         .card {
             background: var(--card-bg);
             border-radius: var(--radius);
@@ -128,7 +124,6 @@
             color: var(--text-main);
         }
 
-        /* 行程專屬子清單 */
         .spot-checklist {
             background: #f8f9fa;
             border-radius: 12px;
@@ -157,7 +152,6 @@
             margin-right: 10px;
             width: 18px;
             height: 18px;
-            accent-color: var(--primary-dark);
         }
 
         .checklist-item.checked span {
@@ -175,10 +169,7 @@
             cursor: pointer;
         }
 
-        /* 標籤分類樣式 */
-        .tag-group {
-            margin-bottom: 20px;
-        }
+        .tag-group { margin-bottom: 20px; }
         .tag-title {
             display: inline-block;
             background: var(--primary);
@@ -190,7 +181,6 @@
             margin-bottom: 10px;
         }
 
-        /* 新增清單輸入框 */
         .input-group {
             display: flex;
             gap: 8px;
@@ -206,7 +196,7 @@
             border-radius: 8px;
             outline: none;
         }
-        .input-group input { flex-grow: 1; }
+        .input-group input { flex-grow: 1; font-size: 14px; }
         .input-group button {
             background: var(--primary);
             color: white;
@@ -216,7 +206,6 @@
             font-weight: bold;
         }
 
-        /* 連結與清單條目 */
         .list-box {
             background: white;
             border-radius: var(--radius);
@@ -243,18 +232,31 @@
             gap: 8px;
         }
 
-        /* 底部導航 (影片風格) */
+        .map-btn {
+            display: inline-block;
+            background: #4285F4;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* 修正版底部導航，特別加入 Apple Safe Area 墊高 */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 65px;
+            height: calc(65px + env(safe-area-inset-bottom, 10px));
+            padding-bottom: env(safe-area-inset-bottom, 10px);
             background: var(--card-bg);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.04);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.06);
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             z-index: 1000;
@@ -264,14 +266,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             color: #b2bec3;
             text-decoration: none;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
-            background: none;
+            background: transparent;
             border: none;
             cursor: pointer;
             width: 20%;
+            height: 65px;
         }
 
         .nav-item.active {
@@ -283,7 +287,7 @@
             margin-bottom: 4px;
         }
 
-        .delete-text { color: var(--danger); font-size: 12px; margin-left:10px;}
+        .delete-text { color: var(--danger); font-size: 12px; margin-left:10px; cursor:pointer;}
     </style>
 </head>
 <body>
@@ -292,10 +296,20 @@
         <h1>✈️ 東京購物狂歡 7 Days</h1>
     </header>
 
+    <div class="day-selector" id="daySelector">
+        <button class="day-btn active" onclick="switchDay(0)">7/9 D1</button>
+        <button class="day-btn" onclick="switchDay(1)">7/10 D2</button>
+        <button class="day-btn" onclick="switchDay(2)">7/11 D3</button>
+        <button class="day-btn" onclick="switchDay(3)">7/12 D4</button>
+        <button class="day-btn" onclick="switchDay(4)">7/13 D5</button>
+        <button class="day-btn" onclick="switchDay(5)">7/14 D6</button>
+        <button class="day-btn" onclick="switchDay(6)">7/15 D7</button>
+    </div>
+
     <div class="container">
         
-        <div id="panel-overview" class="tab-panel active">
-            <h2 style="font-size: 16px; color: var(--text-main); margin-bottom: 12px;">🛫 航班資訊</h2>
+        <div id="panel-overview" class="tab-panel" style="display:block;">
+            <h2 style="font-size: 16px; margin-bottom: 12px;">🛫 航班資訊</h2>
             <div class="list-box">
                 <div class="list-row" style="flex-direction: column; align-items: flex-start; gap: 5px;">
                     <div style="font-size: 12px; color: var(--text-muted);">去程 (7/9 木) | 樂桃 MM620</div>
@@ -307,7 +321,7 @@
                 </div>
             </div>
 
-            <h2 style="font-size: 16px; color: var(--text-main); margin: 20px 0 12px;">🏨 住宿一覽</h2>
+            <h2 style="font-size: 16px; margin: 20px 0 12px;">🏨 住宿一覽</h2>
             <div class="list-box">
                 <div class="list-row" style="flex-direction: column; align-items: flex-start; gap: 5px;">
                     <div style="font-weight: bold;">池袋之家 (House Ikebukuro)</div>
@@ -316,7 +330,7 @@
                 </div>
             </div>
 
-            <h2 style="font-size: 16px; color: var(--text-main); margin: 20px 0 12px;">💡 預算與提醒</h2>
+            <h2 style="font-size: 16px; margin: 20px 0 12px;">💡 預算與提醒</h2>
             <div class="list-box">
                 <div class="list-row">
                     <span>💵 已兌換現鈔</span>
@@ -330,16 +344,7 @@
         </div>
 
         <div id="panel-itinerary" class="tab-panel">
-            <div class="day-selector" id="daySelector">
-                <button class="day-btn active" onclick="switchDay(0)">7/9 D1</button>
-                <button class="day-btn" onclick="switchDay(1)">7/10 D2</button>
-                <button class="day-btn" onclick="switchDay(2)">7/11 D3</button>
-                <button class="day-btn" onclick="switchDay(3)">7/12 D4</button>
-                <button class="day-btn" onclick="switchDay(4)">7/13 D5</button>
-                <button class="day-btn" onclick="switchDay(5)">7/14 D6</button>
-                <button class="day-btn" onclick="switchDay(6)">7/15 D7</button>
-            </div>
-            <div id="itinerary-list" style="margin-top:15px;"></div>
+            <div id="itinerary-list"></div>
         </div>
 
         <div id="panel-shopping" class="tab-panel">
@@ -359,24 +364,18 @@
         </div>
 
         <div id="panel-links" class="tab-panel">
-            <h2 style="font-size: 16px; color: var(--text-main); margin-bottom: 12px;">🗺️ 重要地圖導航</h2>
+            <h2 style="font-size: 16px; margin-bottom: 12px;">🗺️ 地圖導航與網站</h2>
             <div class="list-box">
-                <div class="list-row"><a href="https://maps.google.com/?q=House+Ikebukuro+Tokyo" target="_blank">📍 住宿：池袋之家</a></div>
-                <div class="list-row"><a href="https://maps.google.com/?q=成田國際機場第1航廈" target="_blank">✈️ 成田機場 T1</a></div>
-                <div class="list-row"><a href="https://maps.google.com/?q=Sunshine+City+Tokyo" target="_blank">🛍️ 池袋 Sunshine City</a></div>
-                <div class="list-row"><a href="https://maps.google.com/?q=東京迪士尼海洋" target="_blank">🌋 東京迪士尼海洋</a></div>
-                <div class="list-row"><a href="https://maps.google.com/?q=kesatokyo+淺草" target="_blank">👘 淺草 kesatokyo (和服)</a></div>
-            </div>
-
-            <h2 style="font-size: 16px; color: var(--text-main); margin: 20px 0 12px;">🔗 必備網站</h2>
-            <div class="list-box">
+                <div class="list-row"><a href="https://www.google.com/maps/search/?api=1&query=House+Ikebukuro+Tokyo" target="_blank">📍 住宿：池袋之家</a></div>
+                <div class="list-row"><a href="https://www.google.com/maps/search/?api=1&query=成田國際機場第1航廈" target="_blank">✈️ 成田機場 T1</a></div>
+                <div class="list-row"><a href="https://www.google.com/maps/search/?api=1&query=Sunshine+City+Tokyo" target="_blank">🛍️ 池袋 Sunshine City</a></div>
+                <div class="list-row"><a href="https://www.google.com/maps/search/?api=1&query=東京迪士尼海洋" target="_blank">🌋 東京迪士尼海洋</a></div>
                 <div class="list-row"><a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank">🛂 Visit Japan Web (入境)</a></div>
-                <div class="list-row"><a href="https://www.tokyodisneyresort.jp/tc/tds/" target="_blank">🏰 迪士尼官方網站</a></div>
             </div>
         </div>
 
         <div id="panel-packing" class="tab-panel">
-            <h2 style="font-size: 16px; color: var(--text-main); margin-bottom: 12px;">🧳 掃貨裝備點檢</h2>
+            <h2 style="font-size: 16px; margin-bottom: 12px;">🧳 掃貨裝備點檢</h2>
             <div class="list-box" id="packing-container"></div>
         </div>
 
@@ -390,7 +389,7 @@
             <span class="nav-icon">📍</span><span>行程</span>
         </button>
         <button class="nav-item" onclick="switchTab('shopping', this)">
-            <span class="nav-icon">🛍️</span><span>購物</span>
+            <span class="nav-icon">🛍️</span><span>清單</span>
         </button>
         <button class="nav-item" onclick="switchTab('links', this)">
             <span class="nav-icon">🔗</span><span>連結</span>
@@ -401,8 +400,255 @@
     </nav>
 
     <script>
-        // --- 資料初始化 ---
+        // --- 核心資料庫 ---
         const defaultItinerary = [
             { day: "D1", spots: [
-                { time: "06:30", title: "抵達成田機場 T1", items: [] },
-                { time: "
+                { time: "06:30", title: "抵達成田機場 T1", maps: "成田國際機場第1航廈", items: [] },
+                { time: "09:00", title: "池袋之家 (放行李)", maps: "House Ikebukuro", items: [] },
+                { time: "10:00", title: "池袋 Sunshine City", maps: "Sunshine City Tokyo", items: [{text: "fukuya 彩妝", checked: false}, {text: "Disney Store", checked: false}, {text: "寶可夢中心", checked: false}, {text: "扭蛋區", checked: false}] },
+                { time: "11:00", title: "池袋 PARCO & LUMINE", maps: "池袋PARCO", items: [{text: "Snidel (B1F)", checked: false}, {text: "吉伊卡哇餐廳", checked: false}] },
+                { time: "隨性", title: "池袋車站周邊", maps: "池袋站", items: [{text: "Animate / 駿河屋", checked: false}, {text: "RINGO 千層酥", checked: false}] }
+            ]},
+            { day: "D2", spots: [
+                { time: "10:00", title: "原宿竹下通 / 表參道", maps: "原宿竹下通", items: [{text: "Pet Paradise", checked: false}, {text: "哈利波特專賣店", checked: false}] },
+                { time: "13:00", title: "澀谷 109 & PARCO", maps: "SHIBUYA109", items: [{text: "Emoda / Liz Lisa", checked: false}, {text: "Chiikawa (PARCO 5F)", checked: false}] },
+                { time: "18:00", title: "澀谷大街", maps: "澀谷站", items: [{text: "LOFT / 唐吉訶德", checked: false}] }
+            ]},
+            { day: "D3", spots: [
+                { time: "10:00", title: "神田明神參拜", maps: "神田明神", items: [] },
+                { time: "11:30", title: "秋葉原電器街", maps: "秋葉原站", items: [{text: "Animate", checked: false}, {text: "駿河屋挖寶", checked: false}, {text: "Yodobashi 扭蛋", checked: false}] },
+                { time: "15:00", title: "晴空塔 SkyTree", maps: "東京晴空塔", items: [{text: "Disney Store", checked: false}, {text: "Pokemon Center", checked: false}] },
+                { time: "18:30", title: "東京車站一番街", maps: "東京車站一番街", items: [{text: "蠟筆小新", checked: false}, {text: "吉伊卡哇", checked: false}] }
+            ]},
+            { day: "D4", spots: [
+                { time: "10:30", title: "新宿丸井百貨", maps: "新宿丸井百貨 本館", items: [{text: "Chiikawa 魔法店", checked: false}, {text: "指南針", checked: false}] },
+                { time: "13:00", title: "新宿 LUMINE", maps: "LUMINE 2 新宿", items: [{text: "Snidel", checked: false}, {text: "Resexxy", checked: false}] },
+                { time: "17:30", title: "新宿車站周邊", maps: "新宿站", items: [{text: "Pet Paradise", checked: false}] },
+                { time: "20:00", title: "池袋在地超市", maps: "池袋站", items: [{text: "超商甜點 / 泡麵", checked: false}] }
+            ]},
+            { day: "D5", spots: [
+                { time: "09:00", title: "kesatokyo 和服體驗", maps: "kesatokyo 浅草", items: [] },
+                { time: "11:00", title: "淺草雷門美食一條街", maps: "淺草寺", items: [{text: "かみみつや(團子)", checked: false}, {text: "壽壽喜園抹茶", checked: false}, {text: "淺草炸肉餅", checked: false}] }
+            ]},
+            { day: "D6", spots: [
+                { time: "08:40", title: "東京迪士尼海洋", maps: "東京迪士尼海洋", items: [{text: "達菲熊周邊", checked: false}, {text: "搶 Fantasy Springs 預約", checked: false}] }
+            ]},
+            { day: "D7", spots: [
+                { time: "10:00", title: "池袋東口 唐吉訶德", maps: "唐吉訶德 池袋東口店", items: [{text: "最後補齊免稅藥妝", checked: false}, {text: "掃零食", checked: false}] },
+                { time: "14:00", title: "回池袋之家拿行李", maps: "House Ikebukuro", items: [] },
+                { time: "18:00", title: "前往成田機場 T1", maps: "成田國際機場第1航廈", items: [] }
+            ]}
+        ];
+
+        const defaultPacking = [
+            { text: "護照與 VJW 入境截圖", checked: false },
+            { text: "高海外回饋信用卡 (綁定 Apple Pay)", checked: false },
+            { text: "手提行李電子秤 (廉航必備)", checked: false },
+            { text: "折疊式爆買擴充袋", checked: false },
+            { text: "行動電源 & 快充線", checked: false },
+            { text: "休足時間 / 痠痛貼布", checked: false }
+        ];
+
+        // 刷新快取變數名稱
+        let appData = JSON.parse(localStorage.getItem('tokyoBlueApp_v2'));
+        if (!appData || !appData.itinerary) {
+            appData = {
+                itinerary: defaultItinerary,
+                globalShopping: [],
+                packing: defaultPacking
+            };
+        }
+
+        let currentDayIdx = 0;
+
+        window.onload = function() {
+            renderItinerary();
+            renderGlobalShopping();
+            renderPacking();
+        };
+
+        function saveData() {
+            localStorage.setItem('tokyoBlueApp_v2', JSON.stringify(appData));
+        }
+
+        // --- 防錯版切換頁面機制 ---
+        function switchTab(tabId, element) {
+            try {
+                // 1. 隱藏所有面板
+                var panels = document.getElementsByClassName('tab-panel');
+                for(var i=0; i<panels.length; i++) {
+                    panels[i].style.display = 'none';
+                }
+                // 2. 取消所有導航按鈕的高亮
+                var navs = document.getElementsByClassName('nav-item');
+                for(var j=0; j<navs.length; j++) {
+                    navs[j].classList.remove('active');
+                }
+                // 3. 顯示指定的面板與高亮按鈕
+                var targetPanel = document.getElementById('panel-' + tabId);
+                if(targetPanel) targetPanel.style.display = 'block';
+                if(element) element.classList.add('active');
+
+                // 4. 行程表專屬的日期列顯示
+                var daySelector = document.getElementById('daySelector');
+                if(daySelector) {
+                    daySelector.style.display = (tabId === 'itinerary') ? 'flex' : 'none';
+                }
+            } catch (err) {
+                console.log("切換錯誤:", err);
+            }
+        }
+
+        function switchDay(index) {
+            currentDayIdx = index;
+            var btns = document.getElementsByClassName('day-btn');
+            for(var i=0; i<btns.length; i++) {
+                if(i === index) btns[i].classList.add('active');
+                else btns[i].classList.remove('active');
+            }
+            renderItinerary();
+        }
+
+        // --- 渲染每日行程 ---
+        function renderItinerary() {
+            const listContainer = document.getElementById('itinerary-list');
+            listContainer.innerHTML = '';
+            const spots = appData.itinerary[currentDayIdx].spots;
+
+            spots.forEach((spot, sIdx) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                let checklistHTML = '';
+                spot.items.forEach((item, iIdx) => {
+                    checklistHTML += `
+                        <div class="checklist-item ${item.checked ? 'checked' : ''}">
+                            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleSpotItem(${currentDayIdx}, ${sIdx}, ${iIdx})">
+                            <span>${item.text}</span>
+                            <span class="delete-text" onclick="deleteSpotItem(${currentDayIdx}, ${sIdx}, ${iIdx})">✕</span>
+                        </div>
+                    `;
+                });
+
+                // Google Map 標準 API
+                const mapQuery = encodeURIComponent(spot.maps || spot.title);
+                const mapUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="card-time">${spot.time}</span>
+                        <div class="card-title">${spot.title}</div>
+                    </div>
+                    <a class="map-btn" href="${mapUrl}" target="_blank">🗺️ Google 導航</a>
+                    <div class="spot-checklist">
+                        <div class="spot-checklist-title">
+                            <span>🛒 本站專屬清單</span>
+                            <button class="btn-add-mini" onclick="addSpotItem(${currentDayIdx}, ${sIdx})">+ 新增</button>
+                        </div>
+                        ${checklistHTML || '<div style="font-size:12px; color:#aaa; margin-top:5px;">尚未建立清單</div>'}
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function addSpotItem(dIdx, sIdx) {
+            const text = prompt("請輸入要在這站買的東西：");
+            if(text) {
+                appData.itinerary[dIdx].spots[sIdx].items.push({ text: text.trim(), checked: false });
+                saveData();
+                renderItinerary();
+            }
+        }
+
+        function toggleSpotItem(dIdx, sIdx, iIdx) {
+            appData.itinerary[dIdx].spots[sIdx].items[iIdx].checked = !appData.itinerary[dIdx].spots[sIdx].items[iIdx].checked;
+            saveData();
+            renderItinerary();
+        }
+
+        function deleteSpotItem(dIdx, sIdx, iIdx) {
+            appData.itinerary[dIdx].spots[sIdx].items.splice(iIdx, 1);
+            saveData();
+            renderItinerary();
+        }
+
+        // --- 全域分區購物清單 ---
+        function renderGlobalShopping() {
+            const container = document.getElementById('global-shopping-container');
+            container.innerHTML = '';
+            
+            if(appData.globalShopping.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:20px;">尚無記錄，快將想買的東西記下吧！</p>`;
+                return;
+            }
+
+            const grouped = {};
+            appData.globalShopping.forEach((item, idx) => {
+                if(!grouped[item.tag]) grouped[item.tag] = [];
+                grouped[item.tag].push({ ...item, originalIdx: idx });
+            });
+
+            for (const tag in grouped) {
+                const items = grouped[tag];
+                let html = `<div class="tag-group"><div class="tag-title">📍 ${tag}</div><div class="list-box">`;
+                items.forEach(item => {
+                    html += `
+                        <div class="list-row checklist-item ${item.checked ? 'checked' : ''}">
+                            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleGlobalShopping(${item.originalIdx})">
+                            <span style="flex-grow:1;">${item.text}</span>
+                            <span class="delete-text" onclick="deleteGlobalShopping(${item.originalIdx})">刪除</span>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+                container.innerHTML += html;
+            }
+        }
+
+        function addGlobalShopping() {
+            const tag = document.getElementById('shopTagInput').value;
+            const input = document.getElementById('shopItemInput');
+            const text = input.value.trim();
+            if(!text) return;
+
+            appData.globalShopping.push({ tag: tag, text: text, checked: false });
+            input.value = '';
+            saveData();
+            renderGlobalShopping();
+        }
+
+        function toggleGlobalShopping(idx) {
+            appData.globalShopping[idx].checked = !appData.globalShopping[idx].checked;
+            saveData();
+            renderGlobalShopping();
+        }
+
+        function deleteGlobalShopping(idx) {
+            appData.globalShopping.splice(idx, 1);
+            saveData();
+            renderGlobalShopping();
+        }
+
+        // --- 行李清單 ---
+        function renderPacking() {
+            const container = document.getElementById('packing-container');
+            container.innerHTML = '';
+            appData.packing.forEach((item, idx) => {
+                container.innerHTML += `
+                    <div class="list-row checklist-item ${item.checked ? 'checked' : ''}">
+                        <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePacking(${idx})">
+                        <span>${item.text}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function togglePacking(idx) {
+            appData.packing[idx].checked = !appData.packing[idx].checked;
+            saveData();
+            renderPacking();
+        }
+    </script>
+</body>
+</html>
