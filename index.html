@@ -3,126 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>東京 | 日本愛我</title>
+    <title>東京 | 富士血拼之旅</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-bg: #f5f7fa;       
             --card-bg: #ffffff;          
-            --active-blue-bg: #dbeafe;   /* 選中後的淺藍色 */
-            --active-blue-text: #1d4ed8; /* 選中後的深藍字 */
+            --active-blue-bg: #eff6ff;   
+            --active-blue-text: #2563eb; 
             --text-dark: #1f2937;        
             --text-gray: #6b7280;        
             --border-color: #e5e7eb;
-            --warning: #fbbf24;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        /* 增加底部留白，確保不被導覽列遮擋 */
-        body { background-color: var(--primary-bg); color: var(--text-dark); padding-bottom: 120px; font-size: 15px; }
+        body { background-color: var(--primary-bg); color: var(--text-dark); padding-bottom: 110px; font-size: 15px; }
 
         /* 頂部富士山 Banner */
         .hero-banner {
-            position: relative; width: 100%; height: 260px;
+            position: relative; width: 100%; height: 250px;
             background-image: url('https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?q=80&w=800&auto=format&fit=crop');
             background-size: cover; background-position: center 30%;
             display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
         }
-        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.35); z-index: 1; }
         .hero-content { position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 20px; }
-        .hero-content h1 { font-size: 28px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; text-shadow: 0 3px 15px rgba(0,0,0,0.8); }
-        .hero-content p { font-size: 14px; opacity: 0.95; letter-spacing: 1px; font-weight: 500; text-shadow: 0 1px 5px rgba(0,0,0,0.5); }
+        .hero-content h1 { font-size: 26px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .hero-content p { font-size: 13px; opacity: 0.95; letter-spacing: 1px; font-weight: 600; text-shadow: 0 1px 5px rgba(0,0,0,0.8); }
 
         .container { padding: 16px; max-width: 600px; margin: 0 auto; }
         .tab-panel { display: none; }
 
         /* 卡片設計 */
         .card { background: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid var(--border-color); }
-        .section-title { font-size: 17px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--text-dark); }
+        .section-title { font-size: 16px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--text-dark); }
         .section-title i { color: var(--active-blue-text); }
 
-        /* 天數選擇列：極簡白色設計 */
+        /* 天數選擇列 */
         .day-selector {
-            display: none; overflow-x: auto; background: white; padding: 12px 5px;
+            display: none; overflow-x: auto; background: white; padding: 10px 5px;
             position: sticky; top: 0; z-index: 99; border-bottom: 1px solid var(--border-color); scrollbar-width: none;
         }
         .day-selector::-webkit-scrollbar { display: none; }
         .day-btn {
-            flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; padding: 10px 20px; margin: 0 6px;
+            flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; padding: 8px 16px; margin: 0 5px;
             border-radius: 12px; background: white; color: var(--text-gray); border: 1px solid var(--border-color); font-size: 12px; font-weight: 700; cursor: pointer;
         }
-        .day-btn .day-num { font-size: 20px; margin-bottom: 2px; }
+        .day-btn .day-num { font-size: 18px; margin-bottom: 2px; }
         .day-btn.active { background: var(--active-blue-bg); color: var(--active-blue-text); border-color: var(--active-blue-text); }
 
         /* 行程內容 */
         .timeline-item { display: flex; margin-bottom: 25px; }
-        .timeline-time { width: 60px; font-size: 14px; font-weight: 800; color: var(--text-dark); padding-top: 5px; }
+        .timeline-time { width: 55px; font-size: 13px; font-weight: 800; color: var(--text-dark); padding-top: 5px; }
         .timeline-content { flex-grow: 1; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden; }
         
-        .transit-card { border-left: 5px solid #94a3b8; padding: 15px; display: flex; align-items: center; gap: 15px; background: #f9fafb; }
+        .transit-card { border-left: 5px solid #9ca3af; padding: 12px 15px; display: flex; align-items: center; gap: 12px; background: #f9fafb; }
         .transit-info { font-size: 14px; font-weight: 800; color: var(--text-dark); }
         .transit-detail { font-size: 12px; color: var(--text-gray); margin-top: 3px;}
 
-        .spot-img { width: 100%; height: 140px; object-fit: cover; }
-        .spot-body { padding: 18px; }
-        .spot-title { font-size: 17px; font-weight: 900; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; background: #fef3c7; color: #92400e; font-weight: 800; }
+        /* 吉伊卡哇特殊模式 */
+        .chiikawa-mode { background-color: #fffbeb !important; border: 2px solid #fcd34d !important; }
+
+        .spot-img { width: 100%; height: 130px; object-fit: cover; }
+        .spot-body { padding: 15px; }
+        .spot-title { font-size: 16px; font-weight: 900; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .badge { font-size: 11px; padding: 4px 8px; border-radius: 6px; background: #fef3c7; color: #b45309; font-weight: 800; }
+        .alert-badge { background: #fee2e2; color: #b91c1c; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 10px; display: inline-block; border: 1px solid #fca5a5;}
+
+        /* 特殊 UI：Number Sugar / 抹茶 */
+        .grid-ui { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+        .grid-btn { padding: 8px 0; text-align: center; border: 1px solid var(--border-color); border-radius: 6px; font-weight: 800; color: var(--text-gray); cursor: pointer; }
+        .grid-btn.active { background: var(--active-blue-text); color: white; border-color: var(--active-blue-text); }
+        .matcha-row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .matcha-btn { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 13px; opacity: 0.3; cursor: pointer; }
+        .matcha-btn.active { opacity: 1; transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
         /* 購買清單 */
         .memo-container { margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 12px; }
-        .check-item { display: flex; align-items: center; padding: 10px 0; font-size: 14px; }
-        .check-item input { margin-right: 12px; width: 20px; height: 20px; accent-color: var(--active-blue-text); }
+        .check-item { display: flex; align-items: center; padding: 8px 0; font-size: 14px; }
+        .check-item input { margin-right: 12px; width: 18px; height: 18px; accent-color: var(--active-blue-text); }
         .check-item.checked span { text-decoration: line-through; color: var(--text-gray); }
-        
-        .add-input-row { display: flex; gap: 8px; margin-top: 12px; }
-        .add-input-row input { flex-grow: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; }
+        .add-input-row { display: flex; gap: 8px; margin-top: 10px; }
+        .add-input-row input { flex-grow: 1; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; background: #f9fafb;}
         .add-input-row button { background: var(--active-blue-bg); color: var(--active-blue-text); border: 1px solid var(--active-blue-text); padding: 0 15px; border-radius: 8px; font-weight: 800; }
 
-        /* 總覽清單 */
-        .summary-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f3f4f6; text-decoration: none; color: var(--text-dark); }
-        .summary-icon { width: 30px; color: var(--active-blue-text); font-size: 18px; text-align: center; margin-right: 12px; }
-
-        /* ========================================================
-           最強防護底部橫列：確保不消失
-           ======================================================== */
-        #fixed-nav-bar {
-            position: fixed !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            width: 100% !important;
-            height: 75px !important;
-            background-color: #ffffff !important;
-            display: flex !important;
-            justify-content: space-around !important;
-            align-items: center !important;
-            z-index: 2147483647 !important; /* 全網頁最高權限 */
-            border-top: 1px solid #eeeeee !important;
-            padding-bottom: env(safe-area-inset-bottom, 15px) !important;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.1) !important;
-        }
+        /* 動態換匯器 */
+        .converter-box { background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .conv-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .conv-input { flex-grow: 1; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 18px; font-weight: 800; outline: none; }
+        .conv-input:focus { border-color: var(--active-blue-text); }
+        .conv-result { font-size: 24px; font-weight: 900; color: var(--active-blue-text); text-align: right; }
         
+        /* 其他元素 */
+        .link-row { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid #f3f4f6; text-decoration: none; color: var(--text-dark); }
+        .link-row:last-child { border-bottom: none; }
+        .link-icon { width: 30px; color: var(--active-blue-text); font-size: 18px; text-align: center; margin-right: 10px; }
+        
+        .acc-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; font-weight: 800; font-size: 15px; cursor: pointer; border-bottom: 1px solid #f3f4f6; }
+        .acc-content { display: none; padding: 10px 0; }
+
+        /* 最強防護底部橫列 */
+        #fixed-nav-bar {
+            position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important;
+            height: 75px !important; background-color: #ffffff !important; display: flex !important;
+            justify-content: space-around !important; align-items: center !important; z-index: 2147483647 !important;
+            border-top: 1px solid #eeeeee !important; padding-bottom: env(safe-area-inset-bottom, 15px) !important;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+        }
         .nav-button {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-            color: #9ca3af !important;
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            background: transparent !important;
-            border: none !important;
-            width: 25% !important;
-            height: 100% !important;
-            cursor: pointer !important;
+            display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
+            color: #9ca3af !important; font-size: 11px !important; font-weight: 800 !important; background: transparent !important; border: none !important; width: 25% !important; height: 100% !important; cursor: pointer !important;
         }
         .nav-button.active { color: var(--active-blue-text) !important; }
         .nav-button i { font-size: 22px !important; margin-bottom: 4px !important; }
-
-        /* 匯率表 */
-        .cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .cheat-box { background: #f8fafc; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9;}
     </style>
 </head>
 <body>
@@ -149,39 +144,87 @@
         
         <div id="tab-overview" class="tab-panel" style="display:block;">
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-plane"></i> 交通與住宿摘要</div>
-                <div class="summary-row">
-                    <i class="fa-solid fa-plane-up summary-icon"></i>
-                    <div><b>去程 07/09 樂桃 MM620</b><br><small>02:00 TPE(T1) ➔ 06:30 NRT(T1)</small></div>
-                </div>
-                <div class="summary-row">
-                    <i class="fa-solid fa-plane-arrival summary-icon"></i>
-                    <div><b>回程 07/15 樂桃 MM627</b><br><small>22:15 NRT(T1) ➔ 01:00 TPE(T1)</small></div>
-                </div>
-                <div class="summary-row" style="border-bottom:none;">
-                    <i class="fa-solid fa-hotel summary-icon"></i>
-                    <div><b>池袋之家 (House Ikebukuro)</b><br><small>全程入住 ｜ 2-20-1, Ikebukuro, Toshima-ku</small></div>
+                <div class="section-title"><i class="fa-solid fa-calculator"></i> 即時血拼換匯器</div>
+                <div class="converter-box">
+                    <div style="font-size:12px; color:var(--text-gray); margin-bottom:8px; display:flex; justify-content:space-between;">
+                        <span>輸入日幣標價：</span>
+                        <span>自訂匯率：<input type="number" id="rate-input" value="0.22" step="0.001" style="width:60px; border:1px solid #ccc; border-radius:4px; text-align:center;" oninput="calcCurrency()"></span>
+                    </div>
+                    <div class="conv-row">
+                        <span style="font-weight:800; font-size:18px;">¥</span>
+                        <input type="number" id="jpy-input" class="conv-input" placeholder="例如: 8500" oninput="calcCurrency()">
+                    </div>
+                    <div style="text-align:right; font-size:13px; color:var(--text-gray);">折合台幣大約</div>
+                    <div class="conv-result">NT$ <span id="twd-result">0</span></div>
+                    <div style="margin-top:12px; padding-top:12px; border-top:1px dashed #cbd5e1; font-size:12px; color:var(--danger); font-weight:700;">
+                        💡 日本免稅門檻：未稅滿 ¥5,000。<br>消耗品不可拆！結帳務必出示實體護照。
+                    </div>
                 </div>
             </div>
 
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-yen-sign"></i> 購物戰鬥匯率表 (0.22)</div>
-                <div class="cheat-grid">
-                    <div class="cheat-box"><b>¥1,000</b><br><small>NT$ 220</small></div>
-                    <div class="cheat-box"><b>¥5,000</b><br><small>NT$ 1,100</small></div>
-                    <div class="cheat-box"><b>¥10,000</b><br><small>NT$ 2,200</small></div>
-                    <div class="cheat-box"><b>¥30,000</b><br><small>NT$ 6,600</small></div>
+                <div class="section-title"><i class="fa-solid fa-plane"></i> 航班與住宿</div>
+                <div class="link-row">
+                    <i class="fa-solid fa-plane-up link-icon"></i>
+                    <div><b>去程 07/09 樂桃 MM620</b><br><small>02:00 TPE(T1) ➔ 06:30 NRT(T1)</small></div>
+                </div>
+                <div class="link-row">
+                    <i class="fa-solid fa-plane-arrival link-icon"></i>
+                    <div><b>回程 07/15 樂桃 MM627</b><br><small>22:15 NRT(T1) ➔ 01:00 TPE(T1)</small></div>
+                </div>
+                <div class="link-row" style="border-bottom:none;">
+                    <i class="fa-solid fa-hotel link-icon"></i>
+                    <div><b>池袋之家 (House Ikebukuro)</b><br><small>全程 6 晚 ｜ 2-20-1, Ikebukuro</small></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fa-solid fa-language"></i> 生存日文出示卡</div>
+                <div class="link-row" style="flex-direction:column; align-items:flex-start;">
+                    <div style="font-weight:900; font-size:18px; color:var(--active-blue-text);">Tax-free お願いします</div>
+                    <div style="font-size:12px; color:var(--text-gray);">麻煩我要免稅 (結帳出示)</div>
+                </div>
+                <div class="link-row" style="flex-direction:column; align-items:flex-start;">
+                    <div style="font-weight:900; font-size:18px; color:var(--active-blue-text);">新しいものありますか？</div>
+                    <div style="font-size:12px; color:var(--text-gray);">請問有全新的嗎？</div>
+                </div>
+                <div class="link-row" style="flex-direction:column; align-items:flex-start; border-bottom:none;">
+                    <div style="font-weight:900; font-size:18px; color:var(--active-blue-text);">カード使えますか？</div>
+                    <div style="font-size:12px; color:var(--text-gray);">可以刷卡嗎？</div>
                 </div>
             </div>
         </div>
 
         <div id="tab-prep" class="tab-panel">
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-clipboard-check"></i> 行前確認</div>
-                <div class="check-item"><input type="checkbox" checked> <span>eSIM 網卡已購買</span></div>
-                <div class="check-item"><input type="checkbox" checked> <span>機票旅平險已投保</span></div>
-                <div class="check-item"><input type="checkbox"> <span>Visit Japan Web 填寫</span></div>
-                <div class="check-item"><input type="checkbox"> <span>護照實體正本 (退稅用)</span></div>
+                <div class="acc-header" onclick="toggleAcc(this)"><span><i class="fa-solid fa-passport link-icon"></i> 重要證件與票券</span><i class="fa-solid fa-chevron-down" style="color:#ccc;"></i></div>
+                <div class="acc-content" style="display:block;">
+                    <div class="check-item"><input type="checkbox" checked> <span>eSIM 網卡 (已開通設定)</span></div>
+                    <div class="check-item"><input type="checkbox" checked> <span>旅遊不便險/旅平險保單</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>護照 (確認效期半年以上)</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>Visit Japan Web 入境 QR Code 截圖</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>實體信用卡 (建議帶兩張備用)</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>日幣現鈔 (NT$12000 已換)</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>iPhone 錢包已綁定 Suica/ICOCA</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="acc-header" onclick="toggleAcc(this)"><span><i class="fa-solid fa-bag-shopping link-icon"></i> 爆買專屬武裝</span><i class="fa-solid fa-chevron-down" style="color:#ccc;"></i></div>
+                <div class="acc-content">
+                    <div class="check-item"><input type="checkbox"> <span>摺疊大容量批貨袋/IKEA袋 (裝免稅品)</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>手提行李電子秤 (樂桃必備防超重)</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>減壓耐走好走的球鞋</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>休足時間 / 痠痛貼布 (也可去當地買)</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="acc-header" onclick="toggleAcc(this)"><span><i class="fa-solid fa-sun link-icon"></i> 3C 與盛夏防護</span><i class="fa-solid fa-chevron-down" style="color:#ccc;"></i></div>
+                <div class="acc-content">
+                    <div class="check-item"><input type="checkbox"> <span>行動電源 + 多合一快充線</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>手持小風扇 / 涼感濕紙巾 (防中暑)</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>晴雨兩用傘 / 高係數防曬乳</span></div>
+                    <div class="check-item"><input type="checkbox"> <span>7天夏季衣物 / 個人常備藥品</span></div>
+                </div>
             </div>
         </div>
 
@@ -191,15 +234,19 @@
 
         <div id="tab-links" class="tab-panel">
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-train-subway"></i> 官方交通與時刻表</div>
-                <a href="https://www.keisei.co.jp/keisei/tetudou/skyliner/tc/" target="_blank" class="summary-row"><i class="fa-solid fa-clock summary-icon"></i> <span>京成電鐵 Skyliner 時刻表</span></a>
-                <a href="https://www.jreast.co.jp/multi/zh-CHT/" target="_blank" class="summary-row"><i class="fa-solid fa-map summary-icon"></i> <span>JR 東日本 (山手線/埼京線)</span></a>
-                <a href="https://www.tokyometro.jp/tcn/" target="_blank" class="summary-row"><i class="fa-solid fa-route summary-icon"></i> <span>東京地鐵 Tokyo Metro 官網</span></a>
-                <a href="https://transit.yahoo.co.jp/" target="_blank" class="summary-row" style="border-bottom:none;"><i class="fa-solid fa-magnifying-glass summary-icon"></i> <span>Yahoo! 乘換案內 (查路線)</span></a>
+                <div class="section-title"><i class="fa-solid fa-train-subway"></i> 交通時刻與路線神器</div>
+                <a href="https://www.keisei.co.jp/keisei/tetudou/skyliner/tc/" target="_blank" class="link-row"><i class="fa-solid fa-train link-icon"></i> <span style="flex-grow:1;">京成 Skyliner 官方時刻表</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
+                <a href="https://www.jreast.co.jp/multi/zh-CHT/" target="_blank" class="link-row"><i class="fa-solid fa-train-tram link-icon"></i> <span style="flex-grow:1;">JR 東日本 (山手/埼京線)</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
+                <a href="https://www.tokyometro.jp/tcn/" target="_blank" class="link-row"><i class="fa-solid fa-subway link-icon"></i> <span style="flex-grow:1;">東京地下鐵 (Tokyo Metro)</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
+                <a href="https://transit.yahoo.co.jp/" target="_blank" class="link-row"><i class="fa-solid fa-map-location-dot link-icon"></i> <span style="flex-grow:1;">Yahoo! 乘換案內 (查路線)</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
+                <a href="https://www.tokyodisneyresort.jp/tc/tdr/resortline.html" target="_blank" class="link-row" style="border-bottom:none;"><i class="fa-solid fa-train-subway link-icon"></i> <span style="flex-grow:1;">迪士尼度假區單軌電車指南</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
             </div>
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-tags"></i> 購物專屬優惠券</div>
-                <a href="https://www.donki.com/coupon/" target="_blank" class="summary-row" style="border-bottom:none;"><i class="fa-solid fa-gift summary-icon" style="color:#e74c3c;"></i> <b>唐吉訶德 免稅+5%優惠券</b></a>
+                <div class="section-title"><i class="fa-solid fa-star"></i> 實用工具與專屬優惠</div>
+                <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="link-row"><i class="fa-solid fa-passport link-icon"></i> <span style="flex-grow:1;">Visit Japan Web 登入</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
+                <a href="https://www.donki.com/coupon/" target="_blank" class="link-row"><i class="fa-solid fa-tags link-icon" style="color:var(--danger);"></i> <span style="flex-grow:1;"><b>唐吉訶德 免稅+5%優惠券</b></span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
+                <a href="https://www.tokyodisneyresort.jp/tc/tds/" target="_blank" class="link-row"><i class="fa-brands fa-fort-awesome link-icon"></i> <span style="flex-grow:1;">東京迪士尼官方網站/App</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
+                <a href="https://kesatokyo.com/" target="_blank" class="link-row" style="border-bottom:none;"><i class="fa-solid fa-camera link-icon"></i> <span style="flex-grow:1;">Kesa Tokyo 淺草和服官網</span> <i class="fa-solid fa-angle-right" style="color:#ccc;"></i></a>
             </div>
         </div>
 
@@ -207,10 +254,10 @@
 
     <nav id="fixed-nav-bar">
         <button class="nav-button active" onclick="switchTab('overview', this)">
-            <i class="fa-solid fa-compass"></i><span>總覽</span>
+            <i class="fa-solid fa-house"></i><span>總覽</span>
         </button>
         <button class="nav-button" onclick="switchTab('prep', this)">
-            <i class="fa-solid fa-list-check"></i><span>準備</span>
+            <i class="fa-solid fa-clipboard-list"></i><span>準備</span>
         </button>
         <button class="nav-button" onclick="switchTab('itinerary', this)">
             <i class="fa-solid fa-location-dot"></i><span>行程</span>
@@ -221,75 +268,33 @@
     </nav>
 
     <script>
-        var currentDayIdx = 0;
-        var appState = { items: {} };
+        // 匯率計算器
+        function calcCurrency() {
+            var jpy = parseFloat(document.getElementById('jpy-input').value) || 0;
+            var rate = parseFloat(document.getElementById('rate-input').value) || 0.22;
+            document.getElementById('twd-result').innerText = Math.round(jpy * rate).toLocaleString();
+        }
 
-        // 完整行程資料庫
-        var db = [
-            [ // D1
-                { type: "spot", time: "06:30", title: "抵達成田機場 T1", img: "https://images.unsplash.com/photo-1574182245536-6668ea8af6df?q=80&w=800&auto=format&fit=crop", items: [] },
-                { type: "transit", route: "Skyliner (成田 ➔ 池袋)", detail: "約 60 分鐘 ｜ ¥2,480" },
-                { type: "spot", time: "10:00", title: "池袋 Sunshine City", img: "https://images.unsplash.com/photo-1542051812871-75f10b7a8a05?q=80&w=800&auto=format&fit=crop", badge: "免稅", items: ["寶可夢中心", "迪士尼店", "推活周邊"] },
-                { type: "meal", time: "12:00", title: "午餐候選", hint: "百貨內美食街" },
-                { type: "spot", time: "14:00", title: "池袋 PARCO / LUMINE", img: "https://images.unsplash.com/photo-1512466699230-e37452d37c86?q=80&w=800&auto=format&fit=crop", badge: "免稅+5%", items: ["Snidel", "Emoda", "世界堂"] },
-                { type: "meal", time: "18:00", title: "晚餐候選", hint: "無敵家拉麵" }
-            ],
-            [ // D2
-                { type: "transit", route: "JR 山手線 (池袋 ➔ 原宿)", detail: "約 15 分鐘 ｜ ¥180" },
-                { type: "spot", time: "10:00", title: "原宿竹下通 & 表參道", img: "https://images.unsplash.com/photo-1555546252-16bb90772f4f?q=80&w=800&auto=format&fit=crop", items: ["手工牛奶糖", "哈利波特"] },
-                { type: "meal", time: "12:30", title: "午餐候選", hint: "Afuri 拉麵" },
-                { type: "transit", route: "步行 或 JR (原宿 ➔ 澀谷)", detail: "約 10 分鐘" },
-                { type: "spot", time: "14:00", title: "澀谷 109 & PARCO", img: "https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=800&auto=format&fit=crop", items: ["Chiikawa專賣店", "Nintendo"] },
-                { type: "meal", time: "19:00", title: "晚餐預定", hint: "Shabu shabu Tsukada" }
-            ],
-            [ // D3
-                { type: "transit", route: "JR 山手線 (池袋 ➔ 秋葉原)", detail: "約 20 分鐘" },
-                { type: "spot", time: "10:00", title: "秋葉原 動漫巡禮", img: "https://images.unsplash.com/photo-1582845686001-c8eb725c48b2?q=80&w=800&auto=format&fit=crop", items: ["Animate總店", "巨大扭蛋區"] },
-                { type: "transit", route: "地鐵 (秋葉原 ➔ 押上)", detail: "約 15 分鐘" },
-                { type: "spot", time: "15:00", title: "晴空塔 SkyTree", img: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?q=80&w=800&auto=format&fit=crop", items: ["柯南專賣店", "晴空塔三組"] },
-                { type: "transit", route: "半藏門線 (押上 ➔ 東京)", detail: "約 20 分鐘" },
-                { type: "spot", time: "18:00", title: "東京車站一番街", img: "https://images.unsplash.com/photo-1582029759245-0d291580f498?q=80&w=800&auto=format&fit=crop", items: ["吉伊卡哇店", "蠟筆小新店"] }
-            ],
-            [ // D4
-                { type: "transit", route: "JR 埼京線 (池袋 ➔ 新宿)", detail: "約 8 分鐘" },
-                { type: "spot", time: "10:30", title: "新宿丸井百貨", img: "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?q=80&w=800&auto=format&fit=crop", items: ["Chiikawa 魔法店"] },
-                { type: "spot", time: "14:00", title: "新宿 LUMINE 2 & EST", img: "https://images.unsplash.com/photo-1505312781498-8ec1f40954b9?q=80&w=800&auto=format&fit=crop", badge: "免稅扣手續費", items: ["Snidel", "服飾掃貨"] }
-            ],
-            [ // D5
-                { type: "transit", route: "地鐵 (池袋 ➔ 淺草)", detail: "約 35 分鐘" },
-                { type: "spot", time: "09:00", title: "淺草 和服體驗", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop", items: ["和服變身"] },
-                { type: "spot", time: "14:30", title: "淺草唐吉訶德", img: "https://images.unsplash.com/photo-1554522956-6dd7287905d6?q=80&w=800&auto=format&fit=crop", badge: "免稅再折5%", items: ["藥妝掃貨", "日本零食"] }
-            ],
-            [ // D6
-                { type: "transit", route: "地鐵+JR (池袋 ➔ 舞濱)", detail: "約 50 分鐘" },
-                { type: "spot", time: "08:40", title: "東京迪士尼海洋", img: "https://images.unsplash.com/photo-1518174418386-350b91f061d4?q=80&w=800&auto=format&fit=crop", items: ["達菲熊", "Fantasy Springs"] }
-            ],
-            [ // D7
-                { type: "spot", time: "10:00", title: "池袋補貨/拿行李", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800&auto=format&fit=crop", items: ["最後打包秤重"] },
-                { type: "transit", route: "Skyliner (池袋 ➔ 成田)", detail: "約 60 分鐘" },
-                { type: "spot", time: "18:00", title: "成田機場 T1", img: "https://images.unsplash.com/photo-1574182245536-6668ea8af6df?q=80&w=800&auto=format&fit=crop", items: ["機場免稅伴手禮"] }
-            ]
-        ];
-
-        window.onload = function() {
-            var saved = localStorage.getItem('tokyoTrip_v3');
-            if(saved) appState = JSON.parse(saved);
-            renderTimeline();
-        };
+        // 手風琴與切換
+        function toggleAcc(el) {
+            var content = el.nextElementSibling;
+            var icon = el.querySelector('.fa-chevron-down, .fa-chevron-up');
+            if (content.style.display === "block") { content.style.display = "none"; icon.className = "fa-solid fa-chevron-down"; } 
+            else { content.style.display = "block"; icon.className = "fa-solid fa-chevron-up"; }
+        }
 
         function switchTab(id, btn) {
+            var isItin = (id === 'itinerary');
+            document.getElementById('heroBanner').style.display = isItin ? 'none' : 'flex';
+            document.getElementById('daySelector').style.display = isItin ? 'flex' : 'none';
+
             var panels = document.getElementsByClassName('tab-panel');
             for(var i=0; i<panels.length; i++) panels[i].style.display = 'none';
-            
             var btns = document.getElementsByClassName('nav-button');
             for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
             
             document.getElementById('tab-' + id).style.display = 'block';
             btn.classList.add('active');
-            
-            var isItin = (id === 'itinerary');
-            document.getElementById('heroBanner').style.display = isItin ? 'none' : 'flex';
-            document.getElementById('daySelector').style.display = isItin ? 'flex' : 'none';
             if(isItin) renderTimeline();
         }
 
@@ -297,50 +302,173 @@
             currentDayIdx = idx;
             var btns = document.getElementsByClassName('day-btn');
             for(var i=0; i<btns.length; i++) {
-                if(i === idx) btns[i].classList.add('active');
-                else btns[i].classList.remove('active');
+                if(i === idx) btns[i].classList.add('active'); else btns[i].classList.remove('active');
             }
             renderTimeline();
         }
 
-        function toggleList(id) {
-            appState.items[id] = !appState.items[id];
-            saveAppState(); renderTimeline();
-        }
+        // 核心資料庫 (完美重建所有特殊 UI、交通、清單)
+        var currentDayIdx = 0;
+        var appState = { items: {}, meals: {}, numSugar: [], matcha: 0 };
+        
+        var db = [
+            [ // D1
+                { type: "spot", time: "06:30", title: "成田機場 T1抵達", img: "https://images.unsplash.com/photo-1574182245536-6668ea8af6df?q=80&w=800", items: ["入境通關", "拿行李"] },
+                { type: "transit", route: "京成 Skyliner (成田 ➔ 日暮里 ➔ 池袋)", detail: "約 60 分鐘 ｜ ¥2,480 /人" },
+                { type: "spot", time: "09:00", title: "池袋之家", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800", items: ["寄放行李"] },
+                { type: "transit", route: "步行前往", detail: "約 15 分鐘" },
+                { type: "spot", time: "10:00", title: "池袋 Sunshine City", img: "https://images.unsplash.com/photo-1542051812871-75f10b7a8a05?q=80&w=800", badge: "免稅商場", items: ["fukuya推活周邊", "Disney Store (1F)", "Pokemon Center (2F)", "蠟筆小新/扭蛋 (2F/3F)", "衣服 (B1/B2)"] },
+                { type: "meal", id: "m1-1", time: "12:30", title: "午餐候選", hint: "Sunshine City內 或 附近吃" },
+                { type: "spot", time: "14:00", title: "池袋 PARCO / LUMINE", img: "https://images.unsplash.com/photo-1512466699230-e37452d37c86?q=80&w=800", alert: "💡 買衣服前記得先去1F拿5%折扣卡！", badge: "免稅扣手續費", items: ["Snidel (B1F)", "Emoda (4F)", "Chiikawa餐廳(7F)", "世界堂"] },
+                { type: "meal", id: "m1-2", time: "16:00", title: "休息片刻", hint: "找咖啡廳整理戰利品" },
+                { type: "spot", time: "17:00", title: "池袋周邊動漫巡禮", img: "https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?q=80&w=800", badge: "二手多無免稅", badgeClass: "badge-notax", items: ["Animate總店", "K-BOOKS", "駿河屋", "指南針"] },
+                { type: "meal", id: "m1-3", time: "19:30", title: "晚餐預定", hint: "無敵家拉麵 / 附近居酒屋" }
+            ],
+            [ // D2
+                { type: "transit", route: "JR 山手線 (池袋 ➔ 原宿)", detail: "約 15 分鐘 ｜ ¥180 (刷Suica)" },
+                { type: "spot", time: "10:00", title: "原宿竹下通 & 表參道", img: "https://images.unsplash.com/photo-1555546252-16bb90772f4f?q=80&w=800", badge: "部分免稅", items: ["Pet Paradise", "哈利波特專賣店"] },
+                { type: "spot", time: "11:00", title: "Number Sugar 牛奶糖", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?q=80&w=800", ui: "numberSugar", items: [] },
+                { type: "meal", id: "m2-1", time: "12:30", title: "午餐候選", hint: "Afuri拉麵 或 原宿輕食" },
+                { type: "transit", route: "步行 或 JR (原宿 ➔ 澀谷)", detail: "約 15 分鐘" },
+                { type: "spot", time: "14:00", title: "澀谷 109 & PARCO", img: "https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=800", badge: "免稅", items: ["109: Emoda/Liz Lisa", "PARCO: Chiikawa (5F)", "PARCO: Nintendo"] },
+                { type: "meal", id: "m2-2", time: "16:30", title: "休息片刻", hint: "澀谷周邊喝飲料" },
+                { type: "spot", time: "17:30", title: "澀谷大街大補貨", img: "https://images.unsplash.com/photo-1533157585257-2fcba61b6238?q=80&w=800", badge: "免稅", items: ["唐吉訶德澀谷店", "LOFT雜貨", "Disney Store"] },
+                { type: "meal", id: "m2-3", time: "19:30", title: "晚餐預定", hint: "Shabu shabu Tsukada (12F)" }
+            ],
+            [ // D3
+                { type: "transit", route: "JR 山手線 (池袋 ➔ 秋葉原)", detail: "約 20 分鐘 ｜ ¥210" },
+                { type: "spot", time: "10:00", title: "神田明神 & 秋葉原", img: "https://images.unsplash.com/photo-1582845686001-c8eb725c48b2?q=80&w=800", badge: "二手無免稅", badgeClass: "badge-notax", items: ["神田明神參拜", "Animate 秋葉原", "駿河屋挖寶", "Yodobashi 扭蛋區"] },
+                { type: "meal", id: "m3-1", time: "13:00", title: "午餐候選", hint: "秋葉原炸牛排 / 女僕咖啡廳" },
+                { type: "transit", route: "地鐵日比谷+淺草線 (秋葉原 ➔ 押上)", detail: "約 15 分鐘 ｜ ¥280" },
+                { type: "spot", time: "15:00", title: "晴空塔 SkyTree", img: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?q=80&w=800", badge: "滿額免稅", items: ["Conan Plaza", "Tree Village", "Pokemon Center", "Sanrio"] },
+                { type: "meal", id: "m3-2", time: "17:00", title: "休息片刻", hint: "晴空塔內吃甜點" },
+                { type: "transit", route: "地鐵半藏門線等 (押上 ➔ 東京)", detail: "約 20 分鐘 ｜ ¥210" },
+                { type: "spot", time: "18:00", title: "東京車站一番街", img: "https://images.unsplash.com/photo-1582029759245-0d291580f498?q=80&w=800", badge: "免稅櫃台統一退", items: ["蠟筆小新店", "吉伊卡哇", "宮崎駿"] },
+                { type: "meal", id: "m3-3", time: "19:30", title: "晚餐候選", hint: "東京車站拉麵街" }
+            ],
+            [ // D4
+                { type: "transit", route: "JR 埼京/山手線 (池袋 ➔ 新宿)", detail: "約 8 分鐘 ｜ ¥170" },
+                { type: "spot", time: "10:30", title: "新宿丸井百貨", img: "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?q=80&w=800", ui: "chiikawa", badge: "扣手續費", items: ["Chiikawa 快閃店排隊", "指南針 (3F)", "駿河屋 (5F)"] },
+                { type: "meal", id: "m4-1", time: "13:00", title: "午餐候選", hint: "新宿 LUMINE 地下美食街" },
+                { type: "spot", time: "14:00", title: "新宿 LUMINE 2 & EST", img: "https://images.unsplash.com/photo-1505312781498-8ec1f40954b9?q=80&w=800", alert: "💡 記得先拿外國客5%折扣卡！", badge: "扣手續費", items: ["Snidel", "Liz Lisa", "Emoda", "Resexxy"] },
+                { type: "meal", id: "m4-2", time: "16:30", title: "休息片刻", hint: "找咖啡廳休息" },
+                { type: "spot", time: "17:30", title: "新宿街頭", img: "https://images.unsplash.com/photo-1590559899731-a38283bce401?q=80&w=800", items: ["Pet Paradise", "JINS 眼鏡"] },
+                { type: "meal", id: "m4-3", time: "19:00", title: "晚餐候選", hint: "新宿東口 燒肉/壽司" },
+                { type: "transit", route: "JR 埼京/山手線 回池袋", detail: "約 8 分鐘" },
+                { type: "spot", time: "20:30", title: "池袋在地超市", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=800", badge: "一般消費", badgeClass: "badge-notax", items: ["泡麵/零食", "超商宵夜"] }
+            ],
+            [ // D5
+                { type: "transit", route: "地鐵丸之內+銀座線 (池袋 ➔ 淺草)", detail: "約 35 分鐘 ｜ ¥260" },
+                { type: "spot", time: "09:00", title: "kesatokyo 和服", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800", items: ["和服體驗著裝"] },
+                { type: "spot", time: "11:00", title: "雷門與仲見世通", img: "https://images.unsplash.com/photo-1533050487297-09b450131914?q=80&w=800", badge: "小吃無免稅", badgeClass: "badge-notax", items: ["和服拍照", "かみみつや(團子)", "淺草炸肉餅"] },
+                { type: "meal", id: "m5-1", time: "12:30", title: "午餐候選", hint: "沿路小吃或附近餐廳" },
+                { type: "spot", time: "14:30", title: "淺草 唐吉訶德", img: "https://images.unsplash.com/photo-1554522956-6dd7287905d6?q=80&w=800", alert: "💡 點開「連結」頁出示5%優惠條碼", badge: "免稅再折5%", items: ["藥妝大補貨", "零食大補貨"] },
+                { type: "spot", time: "16:00", title: "壽壽喜園", img: "https://images.unsplash.com/photo-1563805042-7684c8a9e9cb?q=80&w=800", ui: "matcha", items: [] },
+                { type: "meal", id: "m5-2", time: "18:30", title: "晚餐候選", hint: "淺草居酒屋 或 壽喜燒" },
+                { type: "transit", route: "地鐵原路回池袋", detail: "約 35 分鐘" }
+            ],
+            [ // D6
+                { type: "transit", route: "地鐵有樂町+JR京葉 (池袋 ➔ 舞濱)", detail: "約 50 分鐘 ｜ 約 ¥430" },
+                { type: "transit", route: "迪士尼單軌電車 (抵達海洋站)", detail: "約 10 分鐘 ｜ ¥260" },
+                { type: "spot", time: "08:40", title: "東京迪士尼海洋", img: "https://images.unsplash.com/photo-1518174418386-350b91f061d4?q=80&w=800", badge: "園內無退稅", badgeClass: "badge-notax", items: ["搶 Fantasy Springs 預約", "買達菲熊周邊", "買造型爆米花桶"] },
+                { type: "meal", id: "m6-1", time: "12:00", title: "午餐候選", hint: "樂園內餐飲" },
+                { type: "meal", id: "m6-2", time: "15:30", title: "休息片刻", hint: "看遊行、吃甜點" },
+                { type: "meal", id: "m6-3", time: "19:00", title: "晚餐預定", hint: "園區內晚餐，等看煙火" },
+                { type: "transit", route: "原路返回池袋", detail: "約 60 分鐘" }
+            ],
+            [ // D7
+                { type: "spot", time: "10:00", title: "池袋周邊最後補齊", img: "https://images.unsplash.com/photo-1550988636-f6d8da0d15e4?q=80&w=800", alert: "💡 消耗品免稅包裝千萬別拆開！", badge: "免稅", items: ["沒買到的藥妝", "日清泡麵/超商零食"] },
+                { type: "meal", id: "m7-1", time: "12:00", title: "午餐候選", hint: "池袋附近最後美食" },
+                { type: "spot", time: "14:00", title: "回池袋之家", img: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=800", items: ["拿行李", "最後打包與行李秤重"] },
+                { type: "transit", route: "JR + 京成 Skyliner (前往機場)", detail: "約 60 分鐘 ｜ ¥2,480" },
+                { type: "spot", time: "18:00", title: "成田機場 T1", img: "https://images.unsplash.com/photo-1574182245536-6668ea8af6df?q=80&w=800", badge: "免稅", items: ["掛行李", "買薯條三兄弟/白色戀人等伴手禮"] },
+                { type: "meal", id: "m7-2", time: "19:30", title: "晚餐候選", hint: "機場免稅區內覓食" }
+            ]
+        ];
 
+        window.onload = function() {
+            var saved = localStorage.getItem('tokyoFinal_v5');
+            if(saved) appState = JSON.parse(saved);
+            if(!appState.numSugar) appState.numSugar = [];
+            if(appState.matcha === undefined) appState.matcha = 0;
+            renderTimeline();
+            calcCurrency();
+        };
+
+        function saveState() { localStorage.setItem('tokyoFinal_v5', JSON.stringify(appState)); }
+
+        // 特殊 UI 邏輯
+        function toggleNum(n) {
+            var idx = appState.numSugar.indexOf(n);
+            if(idx > -1) appState.numSugar.splice(idx, 1); else appState.numSugar.push(n);
+            saveState(); renderTimeline();
+        }
+        function setMatcha(m) { appState.matcha = m; saveState(); renderTimeline(); }
+        function toggleList(id) { appState.items[id] = !appState.items[id]; saveState(); renderTimeline(); }
+        function editMeal(id) {
+            var val = prompt("請輸入餐廳或休息地點：", appState.meals[id] || "");
+            if(val !== null) {
+                if(val.trim() === "") delete appState.meals[id]; else appState.meals[id] = val.trim();
+                saveState(); renderTimeline();
+            }
+        }
         function addListItem(dIdx, sIdx) {
             var inp = document.getElementById('add-'+dIdx+'-'+sIdx);
-            if(inp.value.trim()){
-                db[dIdx][sIdx].items.push(inp.value.trim());
-                inp.value = ''; renderTimeline();
+            if(inp && inp.value.trim()){
+                db[dIdx][sIdx].items.push(inp.value.trim()); inp.value = ''; renderTimeline();
             }
         }
 
-        function saveAppState() { localStorage.setItem('tokyoTrip_v3', JSON.stringify(appState)); }
-
         function renderTimeline() {
             var cont = document.getElementById('timeline-container');
-            cont.innerHTML = '';
+            if(!cont) return; cont.innerHTML = '';
             var spots = db[currentDayIdx];
 
             for(var i=0; i<spots.length; i++){
                 var s = spots[i];
                 var html = '';
+                
                 if(s.type === 'transit'){
-                    html = '<div class="timeline-item"><div class="timeline-time"></div><div class="transit-card"><i class="fa-solid fa-train-subway"></i><div class="transit-info">'+s.route+'<div class="transit-detail">'+s.detail+'</div></div></div></div>';
-                } else if(s.type === 'meal'){
-                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="card" style="margin-bottom:0; width:100%; border-left:4px solid var(--warning);"><b>'+s.title+'</b><div class="transit-detail">'+s.hint+' (點擊可編輯)</div></div></div>';
-                } else {
-                    var badge = s.badge ? '<span class="badge">'+s.badge+'</span>' : '';
-                    var list = '<div class="memo-container">';
+                    html = '<div class="timeline-item"><div class="timeline-time"></div><div class="transit-card"><div class="transit-info">'+s.route+'<div class="transit-detail">'+s.detail+'</div></div></div></div>';
+                } 
+                else if(s.type === 'meal'){
+                    var mTitle = appState.meals[s.id] || s.title;
+                    var cStyle = appState.meals[s.id] ? 'color:var(--active-blue-text);' : 'color:var(--text-gray);';
+                    html = '<div class="timeline-item" onclick="editMeal(\''+s.id+'\')"><div class="timeline-time">'+s.time+'</div><div class="card" style="margin:bottom:0; width:100%; border-left:4px solid var(--warning); padding:15px; cursor:pointer;"><b style="'+cStyle+'">'+mTitle+' <i class="fa-solid fa-pen" style="font-size:10px; opacity:0.5;"></i></b><div class="transit-detail">'+s.hint+'</div></div></div>';
+                } 
+                else {
+                    var extraUI = '';
+                    if(s.ui === 'numberSugar'){
+                        var btns = '';
+                        for(var n=1; n<=12; n++){
+                            var act = appState.numSugar.indexOf(n)>-1 ? 'active' : '';
+                            btns += '<div class="grid-btn '+act+'" onclick="toggleNum('+n+')">No.'+n+'</div>';
+                        }
+                        extraUI = '<div style="font-size:13px; font-weight:800; margin-top:8px;">挑選口味 (1~12)：</div><div class="grid-ui">'+btns+'</div>';
+                    } else if(s.ui === 'matcha'){
+                        var mBtns = '';
+                        var colors = ['#b8e994','#78e08f','#00b894','#00a8ff','#192a56','#273c75','#2d3436'];
+                        for(var m=1; m<=7; m++){
+                            var mAct = appState.matcha === m ? 'active' : '';
+                            mBtns += '<div class="matcha-btn '+mAct+'" style="background:'+colors[m-1]+'" onclick="setMatcha('+m+')">'+m+'</div>';
+                        }
+                        extraUI = '<div style="font-size:13px; font-weight:800; margin-top:8px;">選擇抹茶濃度 (7最濃)：</div><div class="matcha-row">'+mBtns+'</div>';
+                    }
+
+                    var cClass = s.ui === 'chiikawa' ? 'timeline-content chiikawa-mode' : 'timeline-content';
+                    var alertH = s.alert ? '<div class="alert-badge">'+s.alert+'</div>' : '';
+                    var badgeH = s.badge ? '<span class="badge '+(s.badgeClass||'badge-tax')+'">'+s.badge+'</span>' : '';
+                    
+                    var listH = '<div class="memo-container">';
                     for(var j=0; j<s.items.length; j++){
                         var id = currentDayIdx+'-'+i+'-'+j;
-                        var checked = appState.items[id] ? 'checked' : '';
-                        list += '<div class="check-item '+checked+'"><input type="checkbox" '+checked+' onchange="toggleList(\''+id+'\')"><span>'+s.items[j]+'</span></div>';
+                        var chk = appState.items[id] ? 'checked' : '';
+                        listH += '<div class="check-item '+chk+'"><input type="checkbox" '+chk+' onchange="toggleList(\''+id+'\')"><span>'+s.items[j]+'</span></div>';
                     }
-                    list += '<div class="add-input-row"><input id="add-'+currentDayIdx+'-'+i+'" placeholder="新增清單..."><button onclick="addListItem('+currentDayIdx+','+i+')">加</button></div></div>';
+                    listH += '<div class="add-input-row"><input id="add-'+currentDayIdx+'-'+i+'" placeholder="輸入商品..."><button onclick="addListItem('+currentDayIdx+','+i+')">加</button></div></div>';
                     
-                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="timeline-content"><img src="'+s.img+'" class="spot-img"><div class="spot-body"><div class="spot-title">'+s.title+badge+'</div>'+list+'</div></div></div>';
+                    var navQ = encodeURIComponent(s.title.split(' ')[0]);
+                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="'+cClass+'"><img src="'+s.img+'" class="spot-img"><div class="spot-body">'+alertH+'<div class="spot-title">'+s.title+' <a href="https://www.google.com/maps/search/?api=1&query='+navQ+'" target="_blank" style="font-size:12px; color:var(--active-blue-text); text-decoration:none;"><i class="fa-solid fa-location-arrow"></i> 導航</a></div><div style="margin-bottom:5px;">'+badgeH+'</div>'+extraUI+listH+'</div></div></div>';
                 }
                 cont.innerHTML += html;
             }
