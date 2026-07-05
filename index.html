@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>東京 | 富士血拼之旅</title>
+    <title>東京 | 是免稅不是免費</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -19,13 +19,15 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 預留底部空間給導航列 */
         body { background-color: var(--primary-bg); color: var(--text-dark); padding-bottom: 110px; font-size: 15px; }
 
-        /* 頂部富士山 Banner (唯一保留的照片) */
+        /* 頂部富士山 Banner */
         .hero-banner {
             position: relative; width: 100%; height: 250px;
-            background-image: url('https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?q=80&w=800&auto=format&fit=crop');
-            background-size: cover; background-position: center;
+            background-image: url('https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?q=80&w=800&auto=format&fit=crop');
+            background-size: cover; background-position: center 30%;
             display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
         }
         .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.35); z-index: 1; }
@@ -66,10 +68,9 @@
         /* 吉伊卡哇特殊模式 */
         .chiikawa-mode { background-color: #fffbeb !important; border: 2px solid #fcd34d !important; }
 
-        .spot-body { padding: 18px 15px; }
+        .spot-body { padding: 15px; }
         .spot-title { font-size: 16px; font-weight: 900; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .badge { font-size: 11px; padding: 4px 8px; border-radius: 6px; background: #fef3c7; color: #b45309; font-weight: 800; }
-        .badge-notax { background: #f3f4f6; color: #6b7280; }
         .alert-badge { background: #fee2e2; color: #b91c1c; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 10px; display: inline-block; border: 1px solid #fca5a5;}
 
         /* 特殊 UI：Number Sugar / 抹茶 */
@@ -96,7 +97,7 @@
         .conv-input:focus { border-color: var(--active-blue-text); }
         .conv-result { font-size: 24px; font-weight: 900; color: var(--active-blue-text); text-align: right; }
         
-        /* 其他元素 */
+        /* 準備清單、連結與其他 */
         .link-row { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid #f3f4f6; text-decoration: none; color: var(--text-dark); }
         .link-row:last-child { border-bottom: none; }
         .link-icon { width: 30px; color: var(--active-blue-text); font-size: 18px; text-align: center; margin-right: 10px; }
@@ -104,20 +105,41 @@
         .acc-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; font-weight: 800; font-size: 15px; cursor: pointer; border-bottom: 1px solid #f3f4f6; }
         .acc-content { display: none; padding: 10px 0; }
 
-        /* 最強防護底部橫列 */
+        /* ========================================================
+           終極殺手鐧：暴力破解底部導航列（完全捨棄 button 標籤）
+           ======================================================== */
         #fixed-nav-bar {
-            position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important;
-            height: 75px !important; background-color: #ffffff !important; display: flex !important;
-            justify-content: space-around !important; align-items: center !important; z-index: 2147483647 !important;
-            border-top: 1px solid #eeeeee !important; padding-bottom: env(safe-area-inset-bottom, 15px) !important;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 999999;
+            border-top: 1px solid #e5e7eb;
+            min-height: 65px; /* 用 min-height 避免高度被壓縮 */
+            padding-bottom: env(safe-area-inset-bottom, 0px); /* 蘋果底部黑線安全距離 */
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
         }
-        .nav-button {
-            display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
-            color: #9ca3af !important; font-size: 11px !important; font-weight: 800 !important; background: transparent !important; border: none !important; width: 25% !important; height: 100% !important; cursor: pointer !important;
+        
+        .nav-div-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 65px;
+            color: #9ca3af;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent; /* 移除蘋果預設點擊灰底 */
+            user-select: none;
         }
-        .nav-button.active { color: var(--active-blue-text) !important; }
-        .nav-button i { font-size: 22px !important; margin-bottom: 4px !important; }
+        .nav-div-btn.active { color: var(--active-blue-text); }
+        .nav-div-btn i { font-size: 22px; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -253,18 +275,18 @@
     </div>
 
     <nav id="fixed-nav-bar">
-        <button class="nav-button active" onclick="switchTab('overview', this)">
+        <div class="nav-div-btn active" onclick="switchTab('overview', this)">
             <i class="fa-solid fa-house"></i><span>總覽</span>
-        </button>
-        <button class="nav-button" onclick="switchTab('prep', this)">
+        </div>
+        <div class="nav-div-btn" onclick="switchTab('prep', this)">
             <i class="fa-solid fa-clipboard-list"></i><span>準備</span>
-        </button>
-        <button class="nav-button" onclick="switchTab('itinerary', this)">
+        </div>
+        <div class="nav-div-btn" onclick="switchTab('itinerary', this)">
             <i class="fa-solid fa-location-dot"></i><span>行程</span>
-        </button>
-        <button class="nav-button" onclick="switchTab('links', this)">
+        </div>
+        <div class="nav-div-btn" onclick="switchTab('links', this)">
             <i class="fa-solid fa-link"></i><span>連結</span>
-        </button>
+        </div>
     </nav>
 
     <script>
@@ -275,7 +297,7 @@
             document.getElementById('twd-result').innerText = Math.round(jpy * rate).toLocaleString();
         }
 
-        // 手風琴與切換
+        // 手風琴展開
         function toggleAcc(el) {
             var content = el.nextElementSibling;
             var icon = el.querySelector('.fa-chevron-down, .fa-chevron-up');
@@ -283,19 +305,30 @@
             else { content.style.display = "block"; icon.className = "fa-solid fa-chevron-up"; }
         }
 
+        // 防錯版頁面切換
         function switchTab(id, btn) {
-            var isItin = (id === 'itinerary');
-            document.getElementById('heroBanner').style.display = isItin ? 'none' : 'flex';
-            document.getElementById('daySelector').style.display = isItin ? 'flex' : 'none';
+            try {
+                var isItin = (id === 'itinerary');
+                var hero = document.getElementById('heroBanner');
+                if(hero) hero.style.display = isItin ? 'none' : 'flex';
 
-            var panels = document.getElementsByClassName('tab-panel');
-            for(var i=0; i<panels.length; i++) panels[i].style.display = 'none';
-            var btns = document.getElementsByClassName('nav-button');
-            for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
-            
-            document.getElementById('tab-' + id).style.display = 'block';
-            btn.classList.add('active');
-            if(isItin) renderTimeline();
+                var daySel = document.getElementById('daySelector');
+                if(daySel) daySel.style.display = isItin ? 'flex' : 'none';
+
+                var panels = document.getElementsByClassName('tab-panel');
+                for(var i=0; i<panels.length; i++) panels[i].style.display = 'none';
+                
+                var btns = document.getElementsByClassName('nav-div-btn');
+                for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
+                
+                var targetPanel = document.getElementById('tab-' + id);
+                if(targetPanel) targetPanel.style.display = 'block';
+                if(btn) btn.classList.add('active');
+                
+                if(isItin) renderTimeline();
+            } catch(e) {
+                alert("切換錯誤: " + e.message); // 如果再卡住，會跳出視窗告訴我們原因
+            }
         }
 
         function switchDay(idx) {
@@ -307,7 +340,7 @@
             renderTimeline();
         }
 
-        // 核心資料庫 (純淨無圖片版，更新 D1 巴士)
+        // 核心資料庫 (純淨無圖片版，含巴士交通)
         var currentDayIdx = 0;
         var appState = { items: {}, meals: {}, numSugar: [], matcha: 0 };
         
@@ -387,7 +420,7 @@
         ];
 
         window.onload = function() {
-            var saved = localStorage.getItem('tokyoFinal_v6');
+            var saved = localStorage.getItem('tokyoFinal_v7');
             if(saved) appState = JSON.parse(saved);
             if(!appState.numSugar) appState.numSugar = [];
             if(appState.matcha === undefined) appState.matcha = 0;
@@ -395,28 +428,19 @@
             calcCurrency();
         };
 
-        function saveState() { localStorage.setItem('tokyoFinal_v6', JSON.stringify(appState)); }
+        function saveState() { localStorage.setItem('tokyoFinal_v7', JSON.stringify(appState)); }
 
-        // 特殊 UI 邏輯
-        function toggleNum(n) {
-            var idx = appState.numSugar.indexOf(n);
-            if(idx > -1) appState.numSugar.splice(idx, 1); else appState.numSugar.push(n);
-            saveState(); renderTimeline();
-        }
+        // 特殊 UI 與編輯
+        function toggleNum(n) { var idx = appState.numSugar.indexOf(n); if(idx > -1) appState.numSugar.splice(idx, 1); else appState.numSugar.push(n); saveState(); renderTimeline(); }
         function setMatcha(m) { appState.matcha = m; saveState(); renderTimeline(); }
         function toggleList(id) { appState.items[id] = !appState.items[id]; saveState(); renderTimeline(); }
         function editMeal(id) {
             var val = prompt("請輸入餐廳或休息地點：", appState.meals[id] || "");
-            if(val !== null) {
-                if(val.trim() === "") delete appState.meals[id]; else appState.meals[id] = val.trim();
-                saveState(); renderTimeline();
-            }
+            if(val !== null) { if(val.trim() === "") delete appState.meals[id]; else appState.meals[id] = val.trim(); saveState(); renderTimeline(); }
         }
         function addListItem(dIdx, sIdx) {
             var inp = document.getElementById('add-'+dIdx+'-'+sIdx);
-            if(inp && inp.value.trim()){
-                db[dIdx][sIdx].items.push(inp.value.trim()); inp.value = ''; renderTimeline();
-            }
+            if(inp && inp.value.trim()){ db[dIdx][sIdx].items.push(inp.value.trim()); inp.value = ''; renderTimeline(); }
         }
 
         function renderTimeline() {
@@ -434,24 +458,18 @@
                 else if(s.type === 'meal'){
                     var mTitle = appState.meals[s.id] || s.title;
                     var cStyle = appState.meals[s.id] ? 'color:var(--active-blue-text);' : 'color:var(--text-gray);';
-                    html = '<div class="timeline-item" onclick="editMeal(\''+s.id+'\')"><div class="timeline-time">'+s.time+'</div><div class="card" style="margin:bottom:0; width:100%; border-left:4px solid var(--warning); padding:15px; cursor:pointer;"><b style="'+cStyle+'">'+mTitle+' <i class="fa-solid fa-pen" style="font-size:10px; opacity:0.5;"></i></b><div class="transit-detail">'+s.hint+'</div></div></div>';
+                    html = '<div class="timeline-item" onclick="editMeal(\''+s.id+'\')"><div class="timeline-time">'+s.time+'</div><div class="card" style="margin-bottom:0; width:100%; border-left:4px solid var(--warning); padding:15px; cursor:pointer;"><b style="'+cStyle+'">'+mTitle+' <i class="fa-solid fa-pen" style="font-size:10px; opacity:0.5;"></i></b><div class="transit-detail">'+s.hint+'</div></div></div>';
                 } 
                 else {
                     var extraUI = '';
                     if(s.ui === 'numberSugar'){
                         var btns = '';
-                        for(var n=1; n<=12; n++){
-                            var act = appState.numSugar.indexOf(n)>-1 ? 'active' : '';
-                            btns += '<div class="grid-btn '+act+'" onclick="toggleNum('+n+')">No.'+n+'</div>';
-                        }
+                        for(var n=1; n<=12; n++){ var act = appState.numSugar.indexOf(n)>-1 ? 'active' : ''; btns += '<div class="grid-btn '+act+'" onclick="toggleNum('+n+')">No.'+n+'</div>'; }
                         extraUI = '<div style="font-size:13px; font-weight:800; margin-top:8px;">挑選口味 (1~12)：</div><div class="grid-ui">'+btns+'</div>';
                     } else if(s.ui === 'matcha'){
                         var mBtns = '';
                         var colors = ['#b8e994','#78e08f','#00b894','#00a8ff','#192a56','#273c75','#2d3436'];
-                        for(var m=1; m<=7; m++){
-                            var mAct = appState.matcha === m ? 'active' : '';
-                            mBtns += '<div class="matcha-btn '+mAct+'" style="background:'+colors[m-1]+'" onclick="setMatcha('+m+')">'+m+'</div>';
-                        }
+                        for(var m=1; m<=7; m++){ var mAct = appState.matcha === m ? 'active' : ''; mBtns += '<div class="matcha-btn '+mAct+'" style="background:'+colors[m-1]+'" onclick="setMatcha('+m+')">'+m+'</div>'; }
                         extraUI = '<div style="font-size:13px; font-weight:800; margin-top:8px;">選擇抹茶濃度 (7最濃)：</div><div class="matcha-row">'+mBtns+'</div>';
                     }
 
@@ -468,7 +486,10 @@
                     listH += '<div class="add-input-row"><input id="add-'+currentDayIdx+'-'+i+'" placeholder="輸入商品..."><button onclick="addListItem('+currentDayIdx+','+i+')">加</button></div></div>';
                     
                     var navQ = encodeURIComponent(s.title.split(' ')[0]);
-                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="'+cClass+'"><div class="spot-body">'+alertH+'<div class="spot-title">'+s.title+' <a href="https://www.google.com/maps/search/?api=1&query=$'+navQ+'" target="_blank" style="font-size:12px; color:var(--active-blue-text); text-decoration:none;"><i class="fa-solid fa-location-arrow"></i> 導航</a></div><div style="margin-bottom:5px;">'+badgeH+'</div>'+extraUI+listH+'</div></div></div>';
+                    // 修正原本的 a href 問題，這次直接把 a tag 拆開
+                    var aLink = '<a href="https://www.google.com/maps/search/?api=1&query=' + navQ + '" target="_blank" style="font-size:12px; color:var(--active-blue-text); text-decoration:none;"><i class="fa-solid fa-location-arrow"></i> 導航</a>';
+                    
+                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="'+cClass+'"><div class="spot-body">'+alertH+'<div class="spot-title">'+s.title+' '+aLink+'</div><div style="margin-bottom:5px;">'+badgeH+'</div>'+extraUI+listH+'</div></div></div>';
                 }
                 cont.innerHTML += html;
             }
