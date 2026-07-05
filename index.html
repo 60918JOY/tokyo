@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>東京購物神行程</title>
     <style>
-        /* 視覺風格：極簡主義背景 + 可愛粉藍互動色 */
         :root {
             --primary: #74b9ff;
             --primary-dark: #0984e3;
-            --bg-light: #f8f9fa; /* PDF規定的極淺冷灰色 */
+            --bg-light: #f8f9fa; 
             --card-bg: #ffffff;
             --text-main: #2d3436;
             --text-muted: #636e72;
             --danger: #ff7675;
-            --chiikawa-glow: #ffeaa7; /* 吉伊卡哇專屬高亮 */
             --radius: 16px;
         }
 
@@ -22,7 +20,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; /* 無襯線字體 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -33,7 +31,6 @@
             font-size: 15px;
         }
 
-        /* 頂部 Header */
         header {
             background: white;
             color: var(--text-main);
@@ -53,7 +50,6 @@
             font-weight: 800;
         }
 
-        /* 日期選擇器 Date Picker */
         .day-selector {
             display: none;
             overflow-x: auto;
@@ -87,7 +83,6 @@
         .container { padding: 15px; max-width: 600px; margin: 0 auto; }
         .tab-panel { display: none; }
 
-        /* 卡片式佈局 Card-based Layout */
         .card {
             background: var(--card-bg);
             border-radius: var(--radius);
@@ -122,95 +117,51 @@
             flex-grow: 1;
         }
 
-        /* 標籤映射圖示 */
         .time-anchor { color: var(--danger); font-size: 12px; margin-left: 5px; }
 
-        /* 手風琴折疊 Accordion */
         .accordion-btn {
-            width: 100%;
-            background: #f8f9fa;
-            border: none;
-            padding: 8px;
-            border-radius: 8px;
-            color: var(--primary-dark);
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
+            width: 100%; background: #f8f9fa; border: none; padding: 8px;
+            border-radius: 8px; color: var(--primary-dark); font-weight: bold;
+            margin-top: 10px; cursor: pointer;
         }
         .accordion-content {
-            display: none;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #eee;
+            display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee;
         }
 
-        /* 清單列表 Checkbox List */
         .checklist-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 0;
-            font-size: 14px;
-            border-bottom: 1px solid #fdfdfd;
+            display: flex; align-items: center; padding: 12px 10px; font-size: 14px;
+            border-bottom: 1px solid #fdfdfd; background: white; border-radius: 8px; margin-bottom: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
-        .checklist-item:last-child { border-bottom: none; }
 
         .checklist-item input[type="checkbox"] {
-            margin-right: 12px;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-dark);
+            margin-right: 12px; width: 18px; height: 18px; accent-color: var(--primary-dark);
         }
         .checklist-item.checked span {
-            text-decoration: line-through;
-            color: #b2bec3;
+            text-decoration: line-through; color: #b2bec3;
         }
 
-        /* 客製化 UI：Number Sugar 網格 */
-        .number-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .num-btn {
-            background: white; border: 1px solid #dfe6e9; padding: 10px;
-            border-radius: 8px; font-weight: bold; text-align: center; color: var(--text-muted);
-        }
+        .number-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .num-btn { background: white; border: 1px solid #dfe6e9; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; color: var(--text-muted); }
         .num-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* 客製化 UI：抹茶濃度選擇器 */
-        .matcha-selector {
-            display: flex; justify-content: space-between; margin-top: 10px;
-        }
-        .matcha-circle {
-            width: 30px; height: 30px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 12px; font-weight: bold; opacity: 0.3;
-        }
+        .matcha-selector { display: flex; justify-content: space-between; margin-top: 10px; }
+        .matcha-circle { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold; opacity: 0.3; }
         .matcha-circle.active { opacity: 1; transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .m1 { background: #b8e994; } .m2 { background: #78e08f; } .m3 { background: #00b894; }
         .m4 { background: #00a8ff; } .m5 { background: #192a56; } .m6 { background: #273c75; } .m7 { background: #2d3436; }
 
-        /* 輸入框與按鈕 */
-        .input-bar {
-            display: flex; gap: 8px; margin-top: 10px;
-        }
-        .input-bar input {
-            flex-grow: 1; padding: 8px 12px; border: 1px solid #eee; border-radius: 8px; background: #f8f9fa; outline: none;
-        }
-        .input-bar button {
-            background: var(--primary); color: white; border: none; padding: 0 15px; border-radius: 8px; font-weight: bold;
-        }
+        .input-bar { display: flex; gap: 8px; margin-top: 10px; }
+        .input-bar input, .input-bar select { padding: 8px 10px; border: 1px solid #eee; border-radius: 8px; background: #f8f9fa; outline: none; }
+        .input-bar input { flex-grow: 1; }
+        .input-bar button { background: var(--primary); color: white; border: none; padding: 0 15px; border-radius: 8px; font-weight: bold; }
 
-        /* 全域導覽列 Bottom Nav (四大頁面) */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
             height: calc(65px + env(safe-area-inset-bottom, 10px));
             padding-bottom: env(safe-area-inset-bottom, 10px);
-            background: white;
-            display: flex; justify-content: space-around; align-items: center;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
+            background: white; display: flex; justify-content: space-around; align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 1000;
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -221,6 +172,7 @@
 
         .dashboard-box { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
         .doc-btn { display: block; width: 100%; text-align: center; background: var(--bg-light); padding: 15px; border-radius: 12px; text-decoration: none; color: var(--text-main); font-weight: bold; margin-bottom: 10px; border: 1px solid #eee; }
+        .delete-text { color: var(--danger); font-size: 12px; margin-left: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -241,7 +193,7 @@
 
     <div class="container">
         
-        <div id="panel-overview" class="tab-panel active">
+        <div id="panel-overview" class="tab-panel active" style="display:block;">
             <div class="dashboard-box" style="text-align: center; background: linear-gradient(135deg, #74b9ff, #0984e3); color: white;">
                 <div style="font-size: 12px; opacity: 0.9;">距離出發 2026/07/09</div>
                 <div style="font-size: 32px; font-weight: 800; margin: 5px 0;" id="countdown">計算中...</div>
@@ -252,7 +204,6 @@
             <div class="dashboard-box" style="border-left: 4px solid var(--primary);">
                 <div style="font-size: 12px; color: var(--text-muted);">去程 | 樂桃 MM620</div>
                 <div style="font-weight: 800; font-size: 16px; margin: 4px 0;">02:00 TPE ➔ 06:30 NRT</div>
-                <div style="font-size: 12px; color: var(--danger);">* 07:30 機場巴士搭乘提醒</div>
             </div>
             <div class="dashboard-box" style="border-left: 4px solid var(--primary);">
                 <div style="font-size: 12px; color: var(--text-muted);">回程 | 樂桃 MM627</div>
@@ -263,7 +214,7 @@
             <div class="dashboard-box">
                 <div style="font-weight: 800; font-size: 16px;">池袋之家 (House Ikebukuro)</div>
                 <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">171-0014 東京都豐島區池袋2-20-1</div>
-                <a href="https://www.google.com/maps/search/?api=1&query=House+Ikebukuro+Tokyo" target="_blank" style="display:inline-block; margin-top:10px; color:var(--primary-dark); font-weight:bold; text-decoration:none;">🗺️ 開啟 Google Map 導航</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=House+Ikebukuro" target="_blank" style="display:inline-block; margin-top:10px; color:var(--primary-dark); font-weight:bold; text-decoration:none;">🗺️ 開啟 Google Map 導航</a>
             </div>
         </div>
 
@@ -274,19 +225,33 @@
         <div id="panel-shopping" class="tab-panel">
             <h2 style="font-size: 16px; margin-bottom: 15px;">🛒 跨站點採購總匯</h2>
             <div class="input-bar" style="margin-bottom: 20px;">
-                <input type="text" id="globalShopInput" placeholder="輸入商品 (例如: Snidel 外套)">
+                <select id="globalShopTag">
+                    <option value="通用">通用</option>
+                    <option value="池袋">池袋</option>
+                    <option value="新宿">新宿</option>
+                    <option value="原宿/澀谷">原宿/澀谷</option>
+                    <option value="秋葉原">秋葉原</option>
+                    <option value="藥妝">藥妝</option>
+                </select>
+                <input type="text" id="globalShopInput" placeholder="輸入商品...">
                 <button onclick="addGlobalShopping()">新增</button>
             </div>
-            <div id="global-shopping-container" class="dashboard-box"></div>
+            <div id="global-shopping-container"></div>
         </div>
 
         <div id="panel-docs" class="tab-panel">
-            <h2 style="font-size: 16px; margin-bottom: 15px;">🎟️ 靜態旅行文件庫</h2>
-            <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="doc-btn">🛂 Visit Japan Web (入境快速連結)</a>
-            <a href="#" class="doc-btn" onclick="alert('離線快取功能：請將電子登機證截圖存於手機相簿')">✈️ 樂桃航空 電子登機證截圖</a>
-            <a href="#" class="doc-btn" onclick="alert('離線快取功能：請將住宿信件存於手機相簿')">🏨 住宿預訂確認信</a>
-            <a href="https://www.tokyodisneyresort.jp/tc/tds/" target="_blank" class="doc-btn">🏰 迪士尼海洋 數位門票</a>
-            <div class="doc-btn" style="background: #fff9e6; border-color: #fdcb6e;">👘 淺草和服 Kesa Tokyo 預約紀錄<br><span style="font-size:12px; font-weight:normal;">(7/13 09:00 準時抵達)</span></div>
+            <h2 style="font-size: 16px; margin-bottom: 15px;">🗺️ 重要地圖與連結</h2>
+            <a href="https://www.google.com/maps/search/?api=1&query=成田國際機場第1航廈" target="_blank" class="doc-btn">✈️ 成田機場 T1 導航</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=Sunshine+City+Tokyo" target="_blank" class="doc-btn">🛍️ 池袋 Sunshine City 導航</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=東京迪士尼海洋" target="_blank" class="doc-btn">🌋 東京迪士尼海洋 導航</a>
+            <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="doc-btn" style="background:#e8f4fd;">🛂 Visit Japan Web (入境)</a>
+            <a href="https://www.tokyodisneyresort.jp/tc/tds/" target="_blank" class="doc-btn" style="background:#e8f4fd;">🏰 迪士尼官方網站</a>
+            <div class="doc-btn" style="background: #fff9e6; border-color: #fdcb6e;">👘 淺草和服 Kesa Tokyo<br><span style="font-size:12px; font-weight:normal;">(7/13 09:00 準時抵達)</span></div>
+        </div>
+        
+        <div id="panel-packing" class="tab-panel">
+            <h2 style="font-size: 16px; margin-bottom: 15px;">🧳 出發行李點檢</h2>
+            <div id="packing-container"></div>
         </div>
 
     </div>
@@ -302,35 +267,37 @@
             <span class="nav-icon">🛒</span><span>採購</span>
         </button>
         <button class="nav-item" onclick="switchTab('docs', this)">
-            <span class="nav-icon">🎟️</span><span>憑證</span>
+            <span class="nav-icon">🗺️</span><span>連結</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('packing', this)">
+            <span class="nav-icon">🧳</span><span>行李</span>
         </button>
     </nav>
 
     <script>
-        // --- 計算倒數計時 ---
+        // --- 安全相容寫法：避免使用不支援的 ES6 ---
         function updateCountdown() {
-            const targetDate = new Date("2026-07-09T02:00:00").getTime();
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+            var targetDate = new Date("2026-07-09T02:00:00").getTime();
+            var now = new Date().getTime();
+            var distance = targetDate - now;
+            var countdownEl = document.getElementById("countdown");
+            if (!countdownEl) return;
             if (distance < 0) {
-                document.getElementById("countdown").innerText = "旅途愉快！";
+                countdownEl.innerText = "旅途愉快！";
                 return;
             }
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("countdown").innerText = `${days} 天`;
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            countdownEl.innerText = days + " 天";
         }
-        setInterval(updateCountdown, 1000 * 60 * 60);
-        updateCountdown();
+        setInterval(updateCountdown, 3600000);
 
-        // --- 核心資料庫 (深度解析 PDF 結構) ---
-        const defaultItinerary = [
+        var defaultItinerary = [
             { day: "D1", spots: [
                 { time: "06:30", type: "logistics", title: "成田國際機場 T1 - 抵達", items: [] },
-                { time: "07:30", type: "logistics", title: "機場巴士搭乘", items: [] },
-                { time: "10:00", type: "shopping", title: "池袋 Sunshine City", isAccordion: true, items: [{text: "fukuya (推活周邊)", checked: false}, {text: "disney store (1F)", checked: false}, {text: "sanrio (1F)", checked: false}, {text: "Rodeocrowns (B1)", checked: false}, {text: "Pokemon Center (2F)", checked: false}, {text: "蠟筆小新 (2F)", checked: false}, {text: "kiddy land (2F)", checked: false}, {text: "吉卜力共和國", checked: false}, {text: "扭蛋區 (3F)", checked: false}, {text: "graniph (B1)", checked: false}, {text: "coly pop 谷美 (5F)", checked: false}, {text: "衣服 (本館B2, B1)", checked: false}, {text: "世界堂 (6F)", checked: false}] },
+                { time: "10:00", type: "shopping", title: "池袋 Sunshine City", isAccordion: true, items: [{text: "fukuya (推活周邊)", checked: false}, {text: "disney store", checked: false}, {text: "sanrio", checked: false}, {text: "Pokemon Center", checked: false}, {text: "蠟筆小新", checked: false}, {text: "吉卜力共和國", checked: false}, {text: "扭蛋區", checked: false}, {text: "衣服服飾", checked: false}] },
                 { time: "11:00", type: "shopping", title: "原宿 Laforet Harajuku", items: [{text: "服裝品牌採購", checked: false}] },
-                { time: "待定", type: "shopping", title: "池袋 PARCO", timeAnchor: "預約制", items: [{text: "chiikawa餐廳 (7F)", checked: false}, {text: "Sindel (B1F)", checked: false}, {text: "動漫店 (別館2, 3F)", checked: false}] },
-                { time: "11:00", type: "shopping", title: "LUMINE 池袋", isAccordion: true, items: [{text: "服裝店", checked: false}, {text: "emoda (4F)", checked: false}, {text: "chiikawa", checked: false}, {text: "kbooks", checked: false}, {text: "指南針", checked: false}, {text: "安利美特", checked: false}, {text: "駿河屋", checked: false}, {text: "loft", checked: false}, {text: "pet paradise", checked: false}, {text: "ringo (千層酥)", checked: false}] },
+                { time: "待定", type: "shopping", title: "池袋 PARCO", timeAnchor: "預約制", items: [{text: "chiikawa餐廳 (7F)", checked: false}, {text: "Sindel (B1F)", checked: false}, {text: "動漫店", checked: false}] },
+                { time: "11:00", type: "shopping", title: "LUMINE 池袋", isAccordion: true, items: [{text: "emoda", checked: false}, {text: "chiikawa", checked: false}, {text: "kbooks", checked: false}, {text: "指南針", checked: false}, {text: "安利美特", checked: false}, {text: "駿河屋", checked: false}, {text: "ringo (千層酥)", checked: false}] },
                 { time: "夜間", type: "shopping", title: "住宿周邊 超市+便利店", items: [{text: "零食、宵夜、飲料", checked: false}] }
             ]},
             { day: "D2", spots: [
@@ -338,17 +305,17 @@
                 { time: "11:00", type: "shopping", title: "Number Sugar", customUI: "numberSugar", items: [] },
                 { time: "11:00", type: "shopping", title: "美少女戰士 / 哈利波特", items: [{text: "魔法周邊", checked: false}] },
                 { time: "待定", type: "shopping", title: "malya (Koffee Mameya)", timeAnchor: "預約制 Omakase", items: [] },
-                { time: "12:00", type: "shopping", title: "服飾與綜合大匯集 (澀谷)", isAccordion: true, items: [{text: "emoda / liz lisa", checked: false}, {text: "resexxy / dazzlin", checked: false}, {text: "majestic legon / kastane", checked: false}, {text: "Sindel / adidas", checked: false}, {text: "disney store / 唐吉軻德", checked: false}] },
+                { time: "12:00", type: "shopping", title: "服飾與綜合大匯集 (澀谷)", isAccordion: true, items: [{text: "emoda / liz lisa", checked: false}, {text: "resexxy / dazzlin", checked: false}, {text: "Sindel / adidas", checked: false}, {text: "disney store / 唐吉軻德", checked: false}] },
                 { time: "晚餐", type: "logistics", title: "Shabu shabu Tsukada (12F)", items: [] }
             ]},
             { day: "D3", spots: [
-                { time: "上午", type: "shopping", title: "秋葉原商圈", isAccordion: true, items: [{text: "安利美特 / 駿河屋", checked: false}, {text: "kbooks / gamers", checked: false}, {text: "gigo / yodobashi", checked: false}, {text: "扭蛋 (6F)", checked: false}] },
-                { time: "下午", type: "shopping", title: "新宿 LUMINE / atré", items: [{text: "cospa (1F)", checked: false}, {text: "LOVELIVE Theater", checked: false}, {text: "3coins (3F)", checked: false}, {text: "graniph (3F)", checked: false}] },
-                { time: "傍晚", type: "shopping", title: "東京車站一番街 / 晴空塔", isAccordion: true, items: [{text: "conan plaza", checked: false}, {text: "chiikawa", checked: false}, {text: "disney store", checked: false}, {text: "jump shop / Pokemon", checked: false}, {text: "sanrio / 宮崎駿 / 小新", checked: false}] }
+                { time: "上午", type: "shopping", title: "秋葉原商圈", isAccordion: true, items: [{text: "安利美特 / 駿河屋", checked: false}, {text: "kbooks / gamers", checked: false}, {text: "扭蛋 (6F)", checked: false}] },
+                { time: "下午", type: "shopping", title: "新宿 LUMINE / atré", items: [{text: "cospa", checked: false}, {text: "3coins (3F)", checked: false}] },
+                { time: "傍晚", type: "shopping", title: "東京車站一番街 / 晴空塔", isAccordion: true, items: [{text: "conan plaza", checked: false}, {text: "chiikawa", checked: false}, {text: "disney store", checked: false}, {text: "jump shop / Pokemon", checked: false}, {text: "sanrio / 宮崎駿", checked: false}] }
             ]},
             { day: "D4", spots: [
                 { time: "上午", type: "shopping", title: "Magical Chiikawa 魔法專賣", specialMode: "chiikawa", items: [{text: "限定娃娃 (需排隊)", checked: false}] },
-                { time: "下午", type: "shopping", title: "新宿商圈服飾攻防", isAccordion: true, items: [{text: "指南針 (3F) / 駿河屋 (5F)", checked: false}, {text: "安利美特 (7F)", checked: false}, {text: "Snidel (2F) / liz lisa", checked: false}, {text: "emoda / resexxy", checked: false}, {text: "pet paradise / the pie", checked: false}] }
+                { time: "下午", type: "shopping", title: "新宿商圈服飾攻防", isAccordion: true, items: [{text: "指南針 / 駿河屋", checked: false}, {text: "安利美特", checked: false}, {text: "Snidel / liz lisa", checked: false}, {text: "emoda / resexxy", checked: false}] }
             ]},
             { day: "D5", spots: [
                 { time: "09:00", type: "logistics", title: "淺草 Kesa Tokyo", timeAnchor: "和服體驗出發", items: [] },
@@ -365,129 +332,163 @@
             ]}
         ];
 
-        let appData = JSON.parse(localStorage.getItem('tokyoPRD_v1')) || {
-            itinerary: defaultItinerary,
-            globalShopping: [],
-            numberSugar: [],
-            matcha: 0
-        };
+        var defaultPacking = [
+            { text: "護照與 VJW 入境截圖", checked: false },
+            { text: "高海外回饋信用卡 (綁定 Apple Pay)", checked: false },
+            { text: "手提行李電子秤 (廉航必備)", checked: false },
+            { text: "折疊式爆買擴充袋", checked: false },
+            { text: "行動電源 & 快充線", checked: false }
+        ];
 
-        let currentDayIdx = 0;
+        var appData;
+        try {
+            var saved = JSON.parse(localStorage.getItem('tokyo_final_v1'));
+            appData = {
+                itinerary: (saved && saved.itinerary) ? saved.itinerary : defaultItinerary,
+                globalShopping: (saved && saved.globalShopping) ? saved.globalShopping : [],
+                packing: (saved && saved.packing) ? saved.packing : defaultPacking,
+                numberSugar: (saved && saved.numberSugar) ? saved.numberSugar : [],
+                matcha: (saved && saved.matcha !== undefined) ? saved.matcha : 0
+            };
+        } catch(e) {
+            // 防呆處理
+            appData = { itinerary: defaultItinerary, globalShopping: [], packing: defaultPacking, numberSugar: [], matcha: 0 };
+        }
+
+        var currentDayIdx = 0;
 
         window.onload = function() {
-            renderItinerary();
-            renderGlobalShopping();
+            try {
+                updateCountdown();
+                renderItinerary();
+                renderGlobalShopping();
+                renderPacking();
+            } catch(e) {
+                console.error("載入失敗: " + e.message);
+            }
         };
 
         function saveData() {
-            localStorage.setItem('tokyoPRD_v1', JSON.stringify(appData));
+            try {
+                localStorage.setItem('tokyo_final_v1', JSON.stringify(appData));
+            } catch(e) {
+                console.warn("無法存檔");
+            }
         }
 
-        // --- 導覽列切換邏輯 ---
+        // --- 防錯版切換寫法 (修復 iPhone 當機問題) ---
         function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            document.getElementById(`panel-${tabId}`).style.display = 'block';
-            element.classList.add('active');
+            var panels = document.getElementsByClassName('tab-panel');
+            for(var i=0; i<panels.length; i++) panels[i].style.display = 'none';
             
-            const daySelector = document.getElementById('daySelector');
-            daySelector.style.display = (tabId === 'itinerary') ? 'flex' : 'none';
+            var navs = document.getElementsByClassName('nav-item');
+            for(var j=0; j<navs.length; j++) navs[j].classList.remove('active');
+            
+            var targetPanel = document.getElementById('panel-' + tabId);
+            if(targetPanel) targetPanel.style.display = 'block';
+            if(element) element.classList.add('active');
+            
+            var daySelector = document.getElementById('daySelector');
+            if(daySelector) daySelector.style.display = (tabId === 'itinerary') ? 'flex' : 'none';
         }
 
         function switchDay(index) {
             currentDayIdx = index;
-            document.querySelectorAll('.day-btn').forEach((btn, idx) => {
-                if(idx === index) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
+            var btns = document.getElementsByClassName('day-btn');
+            for(var i=0; i<btns.length; i++) {
+                if(i === index) btns[i].classList.add('active');
+                else btns[i].classList.remove('active');
+            }
             renderItinerary();
         }
 
-        // --- 核心：每日行程與客製化 UI 渲染 ---
-        function renderItinerary() {
-            const container = document.getElementById('itinerary-list');
-            container.innerHTML = '';
-            const spots = appData.itinerary[currentDayIdx].spots;
-
-            spots.forEach((spot, sIdx) => {
-                const card = document.createElement('div');
-                card.className = `card ${spot.type}`;
-                if(spot.specialMode) card.classList.add('chiikawa-mode');
-
-                let titleExtras = '';
-                if(spot.timeAnchor) titleExtras += `<span class="time-anchor">🔔 ${spot.timeAnchor}</span>`;
-                if(spot.specialMode === 'chiikawa') titleExtras += `<span class="time-anchor">🔥 作戰模式</span>`;
-
-                let innerContent = '';
-
-                // 處理特殊的 Number Sugar 網格
-                if (spot.customUI === 'numberSugar') {
-                    let gridHTML = '<div class="number-grid">';
-                    for(let i=1; i<=12; i++) {
-                        let isActive = appData.numberSugar.includes(i) ? 'active' : '';
-                        gridHTML += `<div class="num-btn ${isActive}" onclick="toggleNumber(${i})">No.${i}</div>`;
-                    }
-                    gridHTML += '</div>';
-                    innerContent = `<div style="font-size:12px; font-weight:bold; margin-top:8px;">挑選口味 (1~12號)：</div>` + gridHTML;
-                } 
-                // 處理特殊的抹茶濃度選擇器
-                else if (spot.customUI === 'matcha') {
-                    let matchaHTML = '<div class="matcha-selector">';
-                    for(let i=1; i<=7; i++) {
-                        let isActive = (appData.matcha === i) ? 'active' : '';
-                        matchaHTML += `<div class="matcha-circle m${i} ${isActive}" onclick="setMatcha(${i})">${i}</div>`;
-                    }
-                    matchaHTML += '</div>';
-                    innerContent = `<div style="font-size:12px; font-weight:bold; margin-top:8px;">選擇抹茶濃度 (7號世界最濃)：</div>` + matchaHTML;
-                }
-                // 處理一般清單 (包含手風琴折疊)
-                else if (spot.items.length > 0) {
-                    let listHTML = '';
-                    spot.items.forEach((item, iIdx) => {
-                        listHTML += `
-                            <div class="checklist-item ${item.checked ? 'checked' : ''}">
-                                <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleSpotItem(${currentDayIdx}, ${sIdx}, ${iIdx})">
-                                <span>${item.text}</span>
-                            </div>
-                        `;
-                    });
-
-                    if (spot.isAccordion) {
-                        innerContent = `
-                            <button class="accordion-btn" onclick="toggleAccordion(this)">📑 展開 ${spot.items.length} 項購物清單 ▼</button>
-                            <div class="accordion-content">${listHTML}</div>
-                        `;
-                    } else {
-                        innerContent = `<div style="margin-top:10px;">${listHTML}</div>`;
-                    }
-                }
-
-                // 輸入框
-                let inputHTML = '';
-                if(spot.type === 'shopping' && !spot.customUI) {
-                    inputHTML = `
-                        <div class="input-bar">
-                            <input type="text" id="input-${currentDayIdx}-${sIdx}" placeholder="新增商品...">
-                            <button onclick="addSpotItem(${currentDayIdx}, ${sIdx})">加入</button>
-                        </div>
-                    `;
-                }
-
-                card.innerHTML = `
-                    <div class="card-header">
-                        <span class="card-time">${spot.time}</span>
-                        <div class="card-title">${spot.title} ${titleExtras}</div>
-                    </div>
-                    ${innerContent}
-                    ${inputHTML}
-                `;
-                container.appendChild(card);
-            });
+        function toggleAccordion(btn) {
+            var content = btn.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                btn.innerHTML = btn.innerHTML.replace('▲', '▼').replace('收起', '展開');
+            } else {
+                content.style.display = "block";
+                btn.innerHTML = btn.innerHTML.replace('▼', '▲').replace('展開', '收起');
+            }
         }
 
-        // 客製化 UI 狀態管理
+        // --- 核心渲染 ---
+        function renderItinerary() {
+            var container = document.getElementById('itinerary-list');
+            if(!container) return;
+            container.innerHTML = '';
+            var spots = appData.itinerary[currentDayIdx].spots;
+
+            for(var sIdx=0; sIdx<spots.length; sIdx++) {
+                var spot = spots[sIdx];
+                var card = document.createElement('div');
+                card.className = 'card ' + (spot.type || 'shopping');
+                if(spot.specialMode) card.classList.add('chiikawa-mode');
+
+                var titleExtras = '';
+                if(spot.timeAnchor) titleExtras += '<span class="time-anchor">🔔 ' + spot.timeAnchor + '</span>';
+                if(spot.specialMode === 'chiikawa') titleExtras += '<span class="time-anchor">🔥 作戰模式</span>';
+
+                var innerContent = '';
+
+                if (spot.customUI === 'numberSugar') {
+                    var gridHTML = '<div class="number-grid">';
+                    for(var n=1; n<=12; n++) {
+                        var isAct = (appData.numberSugar.indexOf(n) > -1) ? 'active' : '';
+                        gridHTML += '<div class="num-btn ' + isAct + '" onclick="toggleNumber(' + n + ')">No.' + n + '</div>';
+                    }
+                    gridHTML += '</div>';
+                    innerContent = '<div style="font-size:12px; font-weight:bold; margin-top:8px;">挑選口味：</div>' + gridHTML;
+                } else if (spot.customUI === 'matcha') {
+                    var matchaHTML = '<div class="matcha-selector">';
+                    for(var m=1; m<=7; m++) {
+                        var mAct = (appData.matcha === m) ? 'active' : '';
+                        matchaHTML += '<div class="matcha-circle m' + m + ' ' + mAct + '" onclick="setMatcha(' + m + ')">' + m + '</div>';
+                    }
+                    matchaHTML += '</div>';
+                    innerContent = '<div style="font-size:12px; font-weight:bold; margin-top:8px;">抹茶濃度：</div>' + matchaHTML;
+                } else if (spot.items && spot.items.length > 0) {
+                    var listHTML = '';
+                    for(var iIdx=0; iIdx<spot.items.length; iIdx++) {
+                        var item = spot.items[iIdx];
+                        var checkedStr = item.checked ? 'checked' : '';
+                        listHTML += '<div class="checklist-item ' + checkedStr + '">' +
+                                        '<input type="checkbox" ' + checkedStr + ' onchange="toggleSpotItem(' + currentDayIdx + ',' + sIdx + ',' + iIdx + ')">' +
+                                        '<span style="flex-grow:1;">' + item.text + '</span>' +
+                                    '</div>';
+                    }
+                    if (spot.isAccordion) {
+                        innerContent = '<button class="accordion-btn" onclick="toggleAccordion(this)">📑 展開清單 ▼</button>' +
+                                       '<div class="accordion-content">' + listHTML + '</div>';
+                    } else {
+                        innerContent = '<div style="margin-top:10px;">' + listHTML + '</div>';
+                    }
+                }
+
+                var inputHTML = '';
+                if(spot.type === 'shopping' && !spot.customUI) {
+                    inputHTML = '<div class="input-bar">' +
+                                    '<input type="text" id="input-' + currentDayIdx + '-' + sIdx + '" placeholder="新增商品...">' +
+                                    '<button onclick="addSpotItem(' + currentDayIdx + ',' + sIdx + ')">加入</button>' +
+                                '</div>';
+                }
+
+                var mapTitle = spot.title.split(' ')[0];
+                var mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(mapTitle);
+
+                card.innerHTML = '<div class="card-header">' +
+                                    '<span class="card-time">' + spot.time + '</span>' +
+                                    '<div class="card-title">' + spot.title + titleExtras + '</div>' +
+                                 '</div>' +
+                                 '<a href="' + mapUrl + '" target="_blank" style="font-size:12px; font-weight:bold; color:var(--primary-dark); text-decoration:none;">🗺️ Google 導航</a>' +
+                                 innerContent + inputHTML;
+                container.appendChild(card);
+            }
+        }
+
         function toggleNumber(num) {
-            const idx = appData.numberSugar.indexOf(num);
+            var idx = appData.numberSugar.indexOf(num);
             if(idx > -1) appData.numberSugar.splice(idx, 1);
             else appData.numberSugar.push(num);
             saveData(); renderItinerary();
@@ -498,52 +499,61 @@
             saveData(); renderItinerary();
         }
 
-        function toggleAccordion(btn) {
-            const content = btn.nextElementSibling;
-            if (content.style.display === "block") {
-                content.style.display = "none";
-                btn.innerHTML = btn.innerHTML.replace('▲', '▼').replace('收起', '展開');
-            } else {
-                content.style.display = "block";
-                btn.innerHTML = btn.innerHTML.replace('▼', '▲').replace('展開', '收起');
-            }
-        }
-
         function addSpotItem(dIdx, sIdx) {
-            const input = document.getElementById(`input-${dIdx}-${sIdx}`);
-            const text = input.value.trim();
-            if(text) {
-                appData.itinerary[dIdx].spots[sIdx].items.push({ text: text, checked: false });
+            var input = document.getElementById('input-' + dIdx + '-' + sIdx);
+            if(input && input.value.trim()) {
+                appData.itinerary[dIdx].spots[sIdx].items.push({ text: input.value.trim(), checked: false });
                 input.value = '';
                 saveData(); renderItinerary();
             }
         }
 
         function toggleSpotItem(dIdx, sIdx, iIdx) {
-            const item = appData.itinerary[dIdx].spots[sIdx].items[iIdx];
-            item.checked = !item.checked;
+            appData.itinerary[dIdx].spots[sIdx].items[iIdx].checked = !appData.itinerary[dIdx].spots[sIdx].items[iIdx].checked;
             saveData(); renderItinerary();
         }
 
-        // --- 全域採購總匯 ---
+        // --- 全域購物 ---
         function renderGlobalShopping() {
-            const container = document.getElementById('global-shopping-container');
+            var container = document.getElementById('global-shopping-container');
+            if(!container) return;
             container.innerHTML = '';
-            appData.globalShopping.forEach((item, idx) => {
-                container.innerHTML += `
-                    <div class="checklist-item ${item.checked ? 'checked' : ''}">
-                        <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleGlobalShopping(${idx})">
-                        <span style="flex-grow:1;">${item.text}</span>
-                        <span style="color:var(--danger); font-size:12px; cursor:pointer;" onclick="deleteGlobalShopping(${idx})">刪除</span>
-                    </div>
-                `;
-            });
+            if(appData.globalShopping.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">尚無紀錄</div>';
+                return;
+            }
+            
+            var grouped = {};
+            for(var i=0; i<appData.globalShopping.length; i++) {
+                var itm = appData.globalShopping[i];
+                var t = itm.tag || '通用';
+                if(!grouped[t]) grouped[t] = [];
+                grouped[t].push({ text: itm.text, checked: itm.checked, orgIdx: i });
+            }
+
+            for(var key in grouped) {
+                if(grouped.hasOwnProperty(key)) {
+                    var html = '<div class="tag-group"><div class="tag-title">📍 ' + key + '</div><div class="dashboard-box" style="padding:0;">';
+                    var items = grouped[key];
+                    for(var j=0; j<items.length; j++) {
+                        var cStr = items[j].checked ? 'checked' : '';
+                        html += '<div class="checklist-item ' + cStr + '" style="border-radius:0; box-shadow:none; border-bottom:1px solid #f1f2f6;">' +
+                                    '<input type="checkbox" ' + cStr + ' onchange="toggleGlobalShopping(' + items[j].orgIdx + ')">' +
+                                    '<span style="flex-grow:1;">' + items[j].text + '</span>' +
+                                    '<span class="delete-text" onclick="deleteGlobalShopping(' + items[j].orgIdx + ')">刪除</span>' +
+                                '</div>';
+                    }
+                    html += '</div></div>';
+                    container.innerHTML += html;
+                }
+            }
         }
 
         function addGlobalShopping() {
-            const input = document.getElementById('globalShopInput');
-            if(input.value.trim()) {
-                appData.globalShopping.push({ text: input.value.trim(), checked: false });
+            var input = document.getElementById('globalShopInput');
+            var tagInput = document.getElementById('globalShopTag');
+            if(input && input.value.trim()) {
+                appData.globalShopping.push({ tag: tagInput.value, text: input.value.trim(), checked: false });
                 input.value = '';
                 saveData(); renderGlobalShopping();
             }
@@ -557,6 +567,26 @@
         function deleteGlobalShopping(idx) {
             appData.globalShopping.splice(idx, 1);
             saveData(); renderGlobalShopping();
+        }
+
+        // --- 行李清單 ---
+        function renderPacking() {
+            var container = document.getElementById('packing-container');
+            if(!container) return;
+            container.innerHTML = '';
+            for(var i=0; i<appData.packing.length; i++) {
+                var item = appData.packing[i];
+                var checkedStr = item.checked ? 'checked' : '';
+                container.innerHTML += '<div class="checklist-item ' + checkedStr + '">' +
+                                            '<input type="checkbox" ' + checkedStr + ' onchange="togglePacking(' + i + ')">' +
+                                            '<span>' + item.text + '</span>' +
+                                       '</div>';
+            }
+        }
+
+        function togglePacking(idx) {
+            appData.packing[idx].checked = !appData.packing[idx].checked;
+            saveData(); renderPacking();
         }
     </script>
 </body>
