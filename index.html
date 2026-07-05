@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>東京 | 是免稅不是免費</title>
+    <title>東京 | 富士血拼之旅</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -19,8 +19,6 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        /* 預留底部空間給導航列 */
         body { background-color: var(--primary-bg); color: var(--text-dark); padding-bottom: 110px; font-size: 15px; }
 
         /* 頂部富士山 Banner */
@@ -71,6 +69,7 @@
         .spot-body { padding: 15px; }
         .spot-title { font-size: 16px; font-weight: 900; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .badge { font-size: 11px; padding: 4px 8px; border-radius: 6px; background: #fef3c7; color: #b45309; font-weight: 800; }
+        .badge-notax { background: #f3f4f6; color: #6b7280; }
         .alert-badge { background: #fee2e2; color: #b91c1c; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-bottom: 10px; display: inline-block; border: 1px solid #fca5a5;}
 
         /* 特殊 UI：Number Sugar / 抹茶 */
@@ -79,7 +78,7 @@
         .grid-btn.active { background: var(--active-blue-text); color: white; border-color: var(--active-blue-text); }
         .matcha-row { display: flex; justify-content: space-between; margin-top: 10px; }
         .matcha-btn { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 13px; opacity: 0.3; cursor: pointer; }
-        .matcha-btn.active { opacity: 1; transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .matcha-btn.active { opacity: 1; transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
         /* 購買清單 */
         .memo-container { margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 12px; }
@@ -89,6 +88,14 @@
         .add-input-row { display: flex; gap: 8px; margin-top: 10px; }
         .add-input-row input { flex-grow: 1; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; background: #f9fafb;}
         .add-input-row button { background: var(--active-blue-bg); color: var(--active-blue-text); border: 1px solid var(--active-blue-text); padding: 0 15px; border-radius: 8px; font-weight: 800; }
+
+        /* === 📸 新增：可折疊照片夾樣式 === */
+        .photo-folder-btn { display: block; width: 100%; padding: 8px; margin-top: 12px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; font-size: 12px; font-weight: 700; color: var(--active-blue-text); cursor: pointer; text-align: center; }
+        .photo-folder-content { display: none; padding: 10px; background: #fcfcfc; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 8px 8px; }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+        .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 6px; overflow: hidden; border: 1px solid #eee; }
+        .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-del-btn { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; }
 
         /* 動態換匯器 */
         .converter-box { background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; }
@@ -105,39 +112,14 @@
         .acc-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; font-weight: 800; font-size: 15px; cursor: pointer; border-bottom: 1px solid #f3f4f6; }
         .acc-content { display: none; padding: 10px 0; }
 
-        /* ========================================================
-           終極殺手鐧：暴力破解底部導航列（完全捨棄 button 標籤）
-           ======================================================== */
+        /* 最強防護底部橫列 */
         #fixed-nav-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 999999;
-            border-top: 1px solid #e5e7eb;
-            min-height: 65px; /* 用 min-height 避免高度被壓縮 */
-            padding-bottom: env(safe-area-inset-bottom, 0px); /* 蘋果底部黑線安全距離 */
+            position: fixed; bottom: 0; left: 0; right: 0; background-color: #ffffff;
+            display: flex; justify-content: space-around; align-items: center; z-index: 999999;
+            border-top: 1px solid #e5e7eb; min-height: 65px; padding-bottom: env(safe-area-inset-bottom, 0px);
             box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
         }
-        
-        .nav-div-btn {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 65px;
-            color: #9ca3af;
-            font-size: 11px;
-            font-weight: 800;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent; /* 移除蘋果預設點擊灰底 */
-            user-select: none;
-        }
+        .nav-div-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 65px; color: #9ca3af; font-size: 11px; font-weight: 800; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
         .nav-div-btn.active { color: var(--active-blue-text); }
         .nav-div-btn i { font-size: 22px; margin-bottom: 4px; }
     </style>
@@ -290,14 +272,12 @@
     </nav>
 
     <script>
-        // 匯率計算器
         function calcCurrency() {
             var jpy = parseFloat(document.getElementById('jpy-input').value) || 0;
             var rate = parseFloat(document.getElementById('rate-input').value) || 0.22;
             document.getElementById('twd-result').innerText = Math.round(jpy * rate).toLocaleString();
         }
 
-        // 手風琴展開
         function toggleAcc(el) {
             var content = el.nextElementSibling;
             var icon = el.querySelector('.fa-chevron-down, .fa-chevron-up');
@@ -305,7 +285,6 @@
             else { content.style.display = "block"; icon.className = "fa-solid fa-chevron-up"; }
         }
 
-        // 防錯版頁面切換
         function switchTab(id, btn) {
             try {
                 var isItin = (id === 'itinerary');
@@ -327,7 +306,7 @@
                 
                 if(isItin) renderTimeline();
             } catch(e) {
-                alert("切換錯誤: " + e.message); // 如果再卡住，會跳出視窗告訴我們原因
+                alert("切換錯誤: " + e.message);
             }
         }
 
@@ -340,9 +319,9 @@
             renderTimeline();
         }
 
-        // 核心資料庫 (純淨無圖片版，含巴士交通)
+        // 核心資料庫 (全新加入截圖照片儲存空間)
         var currentDayIdx = 0;
-        var appState = { items: {}, meals: {}, numSugar: [], matcha: 0 };
+        var appState = { items: {}, meals: {}, numSugar: [], matcha: 0, screenshots: {} };
         
         var db = [
             [ // D1
@@ -359,7 +338,7 @@
             ],
             [ // D2
                 { type: "transit", route: "JR 山手線 (池袋 ➔ 原宿)", detail: "約 15 分鐘 ｜ ¥180 (刷Suica)" },
-                { type: "spot", time: "10:00", title: "原宿竹下通 & 表參道", badge: "部分免稅", items: ["Pet Paradise", "哈利波特專賣店"] },
+                { type: "spot", time: "10:00", title: "原宿竹下通 & 表參道", badge: "部分免稅", items: ["Pet Paradise", "哈利波特專專賣店"] },
                 { type: "spot", time: "11:00", title: "Number Sugar 牛奶糖", ui: "numberSugar", items: [] },
                 { type: "meal", id: "m2-1", time: "12:30", title: "午餐候選", hint: "Afuri拉麵 或 原宿輕食" },
                 { type: "transit", route: "步行 或 JR (原宿 ➔ 澀谷)", detail: "約 15 分鐘" },
@@ -405,7 +384,7 @@
                 { type: "transit", route: "迪士尼單軌電車 (抵達海洋站)", detail: "約 10 分鐘 ｜ ¥260" },
                 { type: "spot", time: "08:40", title: "東京迪士尼海洋", badge: "園內無退稅", badgeClass: "badge-notax", items: ["搶 Fantasy Springs 預約", "買達菲熊周邊", "買造型爆米花桶"] },
                 { type: "meal", id: "m6-1", time: "12:00", title: "午餐候選", hint: "樂園內餐飲" },
-                { type: "meal", id: "m6-2", time: "15:30", title: "休息片刻", hint: "看遊行、吃甜點" },
+                { type: "meal", id: "m6-2", time: "15:30", title: "休息片刻", hint: "看遊行、吃點心" },
                 { type: "meal", id: "m6-3", time: "19:00", title: "晚餐預定", hint: "園區內晚餐，等看煙火" },
                 { type: "transit", route: "原路返回池袋", detail: "約 60 分鐘" }
             ],
@@ -420,17 +399,18 @@
         ];
 
         window.onload = function() {
-            var saved = localStorage.getItem('tokyoFinal_v7');
+            var saved = localStorage.getItem('tokyoFinal_v8');
             if(saved) appState = JSON.parse(saved);
             if(!appState.numSugar) appState.numSugar = [];
             if(appState.matcha === undefined) appState.matcha = 0;
+            if(!appState.screenshots) appState.screenshots = {};
             renderTimeline();
             calcCurrency();
         };
 
-        function saveState() { localStorage.setItem('tokyoFinal_v7', JSON.stringify(appState)); }
+        function saveState() { localStorage.setItem('tokyoFinal_v8', JSON.stringify(appState)); }
 
-        // 特殊 UI 與編輯
+        // 特殊 UI 邏輯
         function toggleNum(n) { var idx = appState.numSugar.indexOf(n); if(idx > -1) appState.numSugar.splice(idx, 1); else appState.numSugar.push(n); saveState(); renderTimeline(); }
         function setMatcha(m) { appState.matcha = m; saveState(); renderTimeline(); }
         function toggleList(id) { appState.items[id] = !appState.items[id]; saveState(); renderTimeline(); }
@@ -443,6 +423,43 @@
             if(inp && inp.value.trim()){ db[dIdx][sIdx].items.push(inp.value.trim()); inp.value = ''; renderTimeline(); }
         }
 
+        // === 📸 新增：照片夾展開與圖片讀取功能 ===
+        function togglePhotoFolder(btn, folderId) {
+            var folder = document.getElementById(folderId);
+            if (folder.style.display === "block") {
+                folder.style.display = "none";
+                btn.innerText = "🖼️ 展開照片夾 ▼";
+            } else {
+                folder.style.display = "block";
+                btn.innerText = "🖼️ 收起照片夾 ▲";
+            }
+        }
+
+        function uploadScreenshot(input, spotKey) {
+            var files = input.files;
+            if(!files || files.length === 0) return;
+            
+            if(!appState.screenshots[spotKey]) appState.screenshots[spotKey] = [];
+            
+            for(var i=0; i<files.length; i++) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    appState.screenshots[spotKey].push(e.target.result);
+                    saveState();
+                    renderTimeline();
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        }
+
+        function deleteScreenshot(spotKey, imgIdx) {
+            if(appState.screenshots[spotKey]) {
+                appState.screenshots[spotKey].splice(imgIdx, 1);
+                saveState();
+                renderTimeline();
+            }
+        }
+
         function renderTimeline() {
             var cont = document.getElementById('timeline-container');
             if(!cont) return; cont.innerHTML = '';
@@ -451,6 +468,7 @@
             for(var i=0; i<spots.length; i++){
                 var s = spots[i];
                 var html = '';
+                var spotKey = currentDayIdx + '-' + i; // 每個景點的唯一辨識碼
                 
                 if(s.type === 'transit'){
                     html = '<div class="timeline-item"><div class="timeline-time"></div><div class="transit-card"><div class="transit-info">'+s.route+'<div class="transit-detail">'+s.detail+'</div></div></div></div>';
@@ -485,11 +503,30 @@
                     }
                     listH += '<div class="add-input-row"><input id="add-'+currentDayIdx+'-'+i+'" placeholder="輸入商品..."><button onclick="addListItem('+currentDayIdx+','+i+')">加</button></div></div>';
                     
+                    // === 📸 建立動態照片夾 HTML ===
+                    var folderId = 'folder-' + spotKey;
+                    var savedImgs = appState.screenshots[spotKey] || [];
+                    var gridImgsHtml = '';
+                    for(var imgIdx=0; imgIdx<savedImgs.length; imgIdx++) {
+                        gridImgsHtml += '<div class="photo-wrapper">' +
+                                            '<img src="' + savedImgs[imgIdx] + '">' +
+                                            '<div class="photo-del-btn" onclick="deleteScreenshot(\''+spotKey+'\','+imgIdx+')">×</div>' +
+                                        '</div>';
+                    }
+                    
+                    var photoFolderHtml = '<button class="photo-folder-btn" onclick="togglePhotoFolder(this, \''+folderId+'\')">🖼️ 展開照片夾 ▼</button>' +
+                                          '<div class="photo-folder-content" id="'+folderId+'">' +
+                                              '<label style="display:inline-block; padding:6px 12px; background:var(--active-blue-bg); color:var(--active-blue-text); border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">' +
+                                                  '<i class="fa-solid fa-plus"></i> 選擇商品截圖' +
+                                                  '<input type="file" accept="image/*" multiple style="display:none;" onchange="uploadScreenshot(this, \''+spotKey+'\')">' +
+                                              '</label>' +
+                                              '<div class="photo-grid">' + gridImgsHtml + '</div>' +
+                                          '</div>';
+
                     var navQ = encodeURIComponent(s.title.split(' ')[0]);
-                    // 修正原本的 a href 問題，這次直接把 a tag 拆開
                     var aLink = '<a href="https://www.google.com/maps/search/?api=1&query=' + navQ + '" target="_blank" style="font-size:12px; color:var(--active-blue-text); text-decoration:none;"><i class="fa-solid fa-location-arrow"></i> 導航</a>';
                     
-                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="'+cClass+'"><div class="spot-body">'+alertH+'<div class="spot-title">'+s.title+' '+aLink+'</div><div style="margin-bottom:5px;">'+badgeH+'</div>'+extraUI+listH+'</div></div></div>';
+                    html = '<div class="timeline-item"><div class="timeline-time">'+s.time+'</div><div class="'+cClass+'"><div class="spot-body">'+alertH+'<div class="spot-title">'+s.title+' '+aLink+'</div><div style="margin-bottom:5px;">'+badgeH+'</div>'+extraUI+listH+photoFolderHtml+'</div></div></div>';
                 }
                 cont.innerHTML += html;
             }
